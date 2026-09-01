@@ -12,7 +12,7 @@ This implementation plan details the sequential phases and tasks to fulfill the 
 
 ## Phase 1: Verification Environment & Symmetrical Mapping for Bisimulation (Phase III)
 
-### - [ ] Task 1.1: Prove Bisimulation Invariance in Lean 4
+### - [x] Task 1.1: Prove Bisimulation Invariance in Lean 4 (eacdf3e)
 - **Goal:** Port the definitions of `form`, `eval` ($\models$), `Bisimulation`, and the proof of `bisimulation_invariance` from Isabelle (`UNC_Bisimulation.thy`) to Lean 4.
 - **Documentation:** Document the Lean 4 mapping in `docs/symmetrical_bisimulation.md`.
 - **Automated Test:** Run `lake build` to ensure the Lean 4 proofs compile cleanly.
@@ -90,7 +90,7 @@ This implementation plan details the sequential phases and tasks to fulfill the 
 
 ## Phase 6: Recursive Risk Analysis (Final Planning & Implementation Gate)
 
-### - [ ] Task 6.1: Run Recursive Risk and Mitigation Analysis
+### - [x] Task 6.1: Run Recursive Risk and Mitigation Analysis (eacdf3e)
 - **Goal:** Execute a deep recursive risk analysis up to 6 levels deep (using `@recursive-risk-analyzer` skill) to analyze the risks of this known plan.
 - **Documentation:** Write the final risk analysis report to `docs/recursive_risk_analysis.md`.
 - **Automated Test:** Verification of the complete risk analysis artifact.
