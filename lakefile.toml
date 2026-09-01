@@ -1,0 +1,10 @@
+name = "UNC"
+version = "0.1.0"
+defaultTargets = ["unc"]
+
+[[lean_lib]]
+name = "UNC"
+
+[[lean_exe]]
+name = "unc"
+root = "Main"
