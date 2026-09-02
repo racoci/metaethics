@@ -35,7 +35,7 @@ This implementation plan details the sequential phases and tasks to fulfill the 
 - **Automated Test:** `isabelle build -D UNC` finishes with success on `UNC_Bisimulation`.
 - **Result:** Formulated step-indexed characteristic formulas and proved the characteristic property with 100% automation.
 
-### - [ ] Task 2.2: Prove the Hennessy-Milner Theorem in Isabelle/HOL
+### - [x] Task 2.2: Prove the Hennessy-Milner Theorem in Isabelle/HOL
 - **Goal:** Prove that for image-finite structures, modal equivalence is equivalent to bisimilarity.
 - **Documentation:** Add proof outline and explanations in `docs/characteristic_formulas.md`.
 - **Automated Test:** `isabelle build -D UNC` verifies the completed Hennessy-Milner proof.

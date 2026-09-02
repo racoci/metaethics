@@ -161,4 +161,96 @@ next
     by (auto simp add: eval_conj_all eval_disj_all list_B_sound list_R_K_sound Suc.IH)
 qed
 
+fun depth :: "form \<Rightarrow> nat" where
+  "depth (Atom x act) = 0"
+| "depth (Not \<phi>) = depth \<phi>"
+| "depth (And \<phi> \<psi>) = max (depth \<phi>) (depth \<psi>)"
+| "depth (Oblig p \<phi>) = Suc (depth \<phi>)"
+| "depth (Knows x \<phi>) = Suc (depth \<phi>)"
+
+fun wf_form :: "(a \<times> act) list \<Rightarrow> a list \<Rightarrow> p list \<Rightarrow> form \<Rightarrow> bool" where
+  "wf_form atoms as ps (Atom x act) = ((x, act) \<in> set atoms)"
+| "wf_form atoms as ps (Not \<phi>) = wf_form atoms as ps \<phi>"
+| "wf_form atoms as ps (And \<phi> \<psi>) = (wf_form atoms as ps \<phi> \<and> wf_form atoms as ps \<psi>)"
+| "wf_form atoms as ps (Oblig p \<phi>) = (p \<in> set ps \<and> wf_form atoms as ps \<phi>)"
+| "wf_form atoms as ps (Knows x \<phi>) = (x \<in> set as \<and> wf_form atoms as ps \<phi>)"
+
+definition logical_equiv_list :: "(a \<times> act) list \<Rightarrow> a list \<Rightarrow> p list \<Rightarrow> nat \<Rightarrow> i \<Rightarrow> i \<Rightarrow> bool" where
+  "logical_equiv_list atoms as ps n w v \<equiv>
+    \<forall>\<phi>. wf_form atoms as ps \<phi> \<longrightarrow> depth \<phi> \<le> n \<longrightarrow> (eval \<phi> w \<longleftrightarrow> eval \<phi> v)"
+
+lemma depth_conj_all:
+  "(\<forall>\<phi> \<in> set L. depth \<phi> \<le> n) \<Longrightarrow> depth (conj_all x act L) \<le> n"
+  by (induction L rule: conj_all.induct) auto
+
+lemma depth_disj_all:
+  "(\<forall>\<phi> \<in> set L. depth \<phi> \<le> n) \<Longrightarrow> depth (disj_all x act L) \<le> n"
+  by (induction L rule: disj_all.induct) auto
+
+lemma wf_form_conj_all:
+  assumes "(x, act) \<in> set atoms"
+  assumes "\<forall>\<phi> \<in> set L. wf_form atoms as ps \<phi>"
+  shows "wf_form atoms as ps (conj_all x act L)"
+using assms by (induction L rule: conj_all.induct) auto
+
+lemma wf_form_disj_all:
+  assumes "(x, act) \<in> set atoms"
+  assumes "\<forall>\<phi> \<in> set L. wf_form atoms as ps \<phi>"
+  shows "wf_form atoms as ps (disj_all x act L)"
+using assms by (induction L rule: disj_all.induct) auto
+
+lemma depth_char_form:
+  shows "depth (char_form atoms as ps x0 act0 n w) \<le> n"
+proof (induction n arbitrary: w)
+  case 0
+  then show ?case
+    by (simp add: depth_conj_all)
+next
+  case (Suc n)
+  then show ?case
+    by (auto simp add: depth_conj_all depth_disj_all)
+qed
+
+lemma wf_form_char_form:
+  assumes "(x0, act0) \<in> set atoms"
+  shows "wf_form atoms as ps (char_form atoms as ps x0 act0 n w)"
+proof (induction n arbitrary: w)
+  case 0
+  then show ?case
+    using assms by (auto simp add: wf_form_conj_all)
+next
+  case (Suc n)
+  then show ?case
+    using assms by (auto simp add: wf_form_conj_all wf_form_disj_all)
+qed
+
+lemma n_bisim_list_refl:
+  "n_bisim_list atoms as ps n w w"
+proof (induction n arbitrary: w)
+  case 0
+  then show ?case by auto
+next
+  case (Suc n)
+  then show ?case by auto
+qed
+
+theorem hennessy_milner_logical_equiv_implies_bisim:
+  assumes "(x0, act0) \<in> set atoms"
+  assumes "logical_equiv_list atoms as ps n w v"
+  shows "n_bisim_list atoms as ps n w v"
+proof -
+  have "wf_form atoms as ps (char_form atoms as ps x0 act0 n w)"
+    using assms(1) by (rule wf_form_char_form)
+  moreover have "depth (char_form atoms as ps x0 act0 n w) \<le> n"
+    by (rule depth_char_form)
+  ultimately have "eval (char_form atoms as ps x0 act0 n w) w \<longleftrightarrow> eval (char_form atoms as ps x0 act0 n w) v"
+    using assms(2) unfolding logical_equiv_list_def by blast
+  moreover have "eval (char_form atoms as ps x0 act0 n w) w"
+    using char_form_property n_bisim_list_refl by blast
+  ultimately have "eval (char_form atoms as ps x0 act0 n w) v"
+    by simp
+  then show ?thesis
+    using char_form_property by blast
+qed
+
 end

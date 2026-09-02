@@ -110,3 +110,72 @@ qed
 ```
 
 The proof is completely verified with 100% automation in the inductive step, showcasing the extreme efficacy of the list-based helpers `conj_all` and `disj_all`.
+
+---
+
+## 4. The Hennessy-Milner Theorem
+
+The Hennessy-Milner Theorem establishes the equivalence between logical equivalence (restricted to depth $n$) and $n$-bisimilarity.
+
+### Formal Definitions in Isabelle/HOL
+
+We first define the depth of a formula, what it means for a formula to be well-formed over our restricted parameters, and the notion of logical equivalence:
+
+```isabelle
+fun depth :: "form \<Rightarrow> nat" where
+  "depth (Atom x act) = 0"
+| "depth (Not \<phi>) = depth \<phi>"
+| "depth (And \<phi> \<psi>) = max (depth \<phi>) (depth \<psi>)"
+| "depth (Oblig p \<phi>) = Suc (depth \<phi>)"
+| "depth (Knows x \<phi>) = Suc (depth \<phi>)"
+
+fun wf_form :: "(a \<times> act) list \<Rightarrow> a list \<Rightarrow> p list \<Rightarrow> form \<Rightarrow> bool" where
+  "wf_form atoms as ps (Atom x act) = ((x, act) \<in> set atoms)"
+| "wf_form atoms as ps (Not \<phi>) = wf_form atoms as ps \<phi>"
+| "wf_form atoms as ps (And \<phi> \<psi>) = (wf_form atoms as ps \<phi> \<and> wf_form atoms as ps \<psi>)"
+| "wf_form atoms as ps (Oblig p \<phi>) = (p \<in> set ps \<and> wf_form atoms as ps \<phi>)"
+| "wf_form atoms as ps (Knows x \<phi>) = (x \<in> set as \<and> wf_form atoms as ps \<phi>)"
+
+definition logical_equiv_list :: "(a \<times> act) list \<Rightarrow> a list \<Rightarrow> p list \<Rightarrow> nat \<Rightarrow> i \<Rightarrow> i \<Rightarrow> bool" where
+  "logical_equiv_list atoms as ps n w v \<equiv>
+    \<forall>\<phi>. wf_form atoms as ps \<phi> \<longrightarrow> depth \<phi> \<le> n \<longrightarrow> (eval \<phi> w \<longleftrightarrow> eval \<phi> v)"
+```
+
+### Key Proof Steps
+
+To prove the main theorem, we establish that:
+1. **Depth Boundary:** The characteristic formula has depth $\le n$.
+2. **Well-Formedness Boundary:** The characteristic formula is well-formed.
+3. **Reflexivity:** $n$-bisimilarity is reflexive.
+
+These properties are verified with the following lemmas in `UNC_Bisimulation.thy`:
+- `depth_char_form`: `depth (char_form atoms as ps x0 act0 n w) \<le> n`
+- `wf_form_char_form`: `(x0, act0) \<in> set atoms \<Longrightarrow> wf_form atoms as ps (char_form atoms as ps x0 act0 n w)`
+- `n_bisim_list_refl`: `n_bisim_list atoms as ps n w w`
+
+### The Converse Direction Proof
+
+Using these lemmas, the proof of the converse direction (Logical Equivalence $\implies$ Bisimilarity) is extremely clean, constructive, and direct:
+
+```isabelle
+theorem hennessy_milner_logical_equiv_implies_bisim:
+  assumes "(x0, act0) \<in> set atoms"
+  assumes "logical_equiv_list atoms as ps n w v"
+  shows "n_bisim_list atoms as ps n w v"
+proof -
+  have "wf_form atoms as ps (char_form atoms as ps x0 act0 n w)"
+    using assms(1) by (rule wf_form_char_form)
+  moreover have "depth (char_form atoms as ps x0 act0 n w) \<le> n"
+    by (rule depth_char_form)
+  ultimately have "eval (char_form atoms as ps x0 act0 n w) w \<longleftrightarrow> eval (char_form atoms as ps x0 act0 n w) v"
+    using assms(2) unfolding logical_equiv_list_def by blast
+  moreover have "eval (char_form atoms as ps x0 act0 n w) w"
+    using char_form_property n_bisim_list_refl by blast
+  ultimately have "eval (char_form atoms as ps x0 act0 n w) v"
+    by simp
+  then show ?thesis
+    using char_form_property by blast
+qed
+```
+
+This proof shows that logical equivalence with respect to all formulas up to depth $n$ is sufficient to establish list-restricted $n$-bisimilarity under image-finiteness.
