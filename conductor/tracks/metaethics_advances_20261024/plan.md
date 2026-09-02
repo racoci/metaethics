@@ -17,7 +17,7 @@ This implementation plan details the sequential phases and tasks to fulfill the 
 - **Documentation:** Document the Lean 4 mapping in `docs/symmetrical_bisimulation.md`.
 - **Automated Test:** Run `lake build` to ensure the Lean 4 proofs compile cleanly.
 
-### - [ ] Task 1.2: Formalize Image-Finiteness Symmetrically
+### - [x] Task 1.2: Formalize Image-Finiteness Symmetrically
 - **Goal:** Declare image-finiteness predicates for relations `B` and `R_K` in both Isabelle and Lean 4.
 - **Documentation:** Add dedicated section in `docs/symmetrical_bisimulation.md`.
 - **Automated Test:** `isabelle process -T UNC_Bisimulation` and `lake build` compile without warnings.
