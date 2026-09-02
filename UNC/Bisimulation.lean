@@ -14,6 +14,21 @@ variable (Does : Agent → Action → World → Prop)
 variable (B : Perspective → World → World → Prop)
 variable (R_K : Agent → World → World → Prop)
 
+def IsFinite {α : Type u} (P : α → Prop) : Prop :=
+  ∃ L : List α, ∀ v, P v → v ∈ L
+
+def image_finite_B_at (B : Perspective → World → World → Prop) (p : Perspective) (w : World) : Prop :=
+  IsFinite (fun v => B p w v)
+
+def image_finite_R_K_at (R_K : Agent → World → World → Prop) (x : Agent) (w : World) : Prop :=
+  IsFinite (fun v => R_K x w v)
+
+def image_finite_B (B : Perspective → World → World → Prop) : Prop :=
+  ∀ p w, image_finite_B_at B p w
+
+def image_finite_R_K (R_K : Agent → World → World → Prop) : Prop :=
+  ∀ x w, image_finite_R_K_at R_K x w
+
 def eval : Form Agent Action Perspective → World → Prop
   | Form.Atom x act => fun w => Does x act w
   | Form.Not phi => fun w => ¬(eval Does B R_K phi w)

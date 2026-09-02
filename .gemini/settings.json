@@ -1,0 +1,18 @@
+{
+  "agents": {
+    "overrides": {
+      "conductor": {
+        "runConfig": {
+          "maxTurns": 300,
+          "maxTimeMinutes": 180
+        }
+      },
+      "generalist": {
+        "runConfig": {
+          "maxTurns": 300,
+          "maxTimeMinutes": 180
+        }
+      }
+    }
+  }
+}

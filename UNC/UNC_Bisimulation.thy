@@ -18,6 +18,18 @@ fun eval :: "form \<Rightarrow> i \<Rightarrow> bool" (infix "\<Turnstile>" 60) 
 | "(Oblig p \<phi>) \<Turnstile> w = (\<forall>v \<in> UNC.B p w. \<phi> \<Turnstile> v)"
 | "(Knows x \<phi>) \<Turnstile> w = (\<forall>v. UNC.R_K x w v \<longrightarrow> \<phi> \<Turnstile> v)"
 
+definition image_finite_B_at :: "p \<Rightarrow> i \<Rightarrow> bool" where
+  "image_finite_B_at p w \<equiv> finite (UNC.B p w)"
+
+definition image_finite_R_K_at :: "a \<Rightarrow> i \<Rightarrow> bool" where
+  "image_finite_R_K_at x w \<equiv> finite {v. UNC.R_K x w v}"
+
+definition image_finite_B :: "bool" where
+  "image_finite_B \<equiv> \<forall>p w. image_finite_B_at p w"
+
+definition image_finite_R_K :: "bool" where
+  "image_finite_R_K \<equiv> \<forall>x w. image_finite_R_K_at x w"
+
 definition Bisimulation :: "(i \<Rightarrow> i \<Rightarrow> bool) \<Rightarrow> bool" where
   "Bisimulation Z \<equiv> \<forall>w1 w2. Z w1 w2 \<longrightarrow>
       (\<forall>x act. Does x act w1 \<longleftrightarrow> Does x act w2) \<and>

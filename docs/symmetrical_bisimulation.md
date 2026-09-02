@@ -48,3 +48,43 @@ theorem bisimulation_invariance (Z : World → World → Prop)
 ```
 
 Both build suites (`isabelle build` and `lake build`) compile and verify these proofs with zero warnings.
+
+## 4. Symmetrical Formalization of Image-Finiteness
+To prepare for the proof of the Hennessy-Milner theorem, we formalized image-finiteness of both the deontic relation `B` and the epistemic relation `R_K`. Image-finiteness requires that for any state/world $w$, the set of successor states under a given relation is finite.
+
+### 4.1 Isabelle/HOL Image-Finiteness
+In `UNC_Bisimulation.thy`, image-finiteness is expressed using Isabelle's native `finite` predicate on sets:
+
+```isabelle
+definition image_finite_B_at :: "p \<Rightarrow> i \<Rightarrow> bool" where
+  "image_finite_B_at p w \<equiv> finite (UNC.B p w)"
+
+definition image_finite_R_K_at :: "a \<Rightarrow> i \<Rightarrow> bool" where
+  "image_finite_R_K_at x w \<equiv> finite {v. UNC.R_K x w v}"
+
+definition image_finite_B :: "bool" where
+  "image_finite_B \<equiv> \<forall>p w. image_finite_B_at p w"
+
+definition image_finite_R_K :: "bool" where
+  "image_finite_R_K \<equiv> \<forall>x w. image_finite_R_K_at x w"
+```
+
+### 4.2 Lean 4 Image-Finiteness
+In pure Lean 4 without Mathlib dependencies, we define a custom constructive finiteness predicate `IsFinite`. A predicate $P : \alpha \to \text{Prop}$ is finite if there exists a list $L$ containing all elements $v$ satisfying $P v$:
+
+```lean
+def IsFinite {α : Type u} (P : α → Prop) : Prop :=
+  ∃ L : List α, ∀ v, P v → v ∈ L
+
+def image_finite_B_at (B : Perspective → World → World → Prop) (p : Perspective) (w : World) : Prop :=
+  IsFinite (fun v => B p w v)
+
+def image_finite_R_K_at (R_K : Agent → World → World → Prop) (x : Agent) (w : World) : Prop :=
+  IsFinite (fun v => R_K x w v)
+
+def image_finite_B (B : Perspective → World → World → Prop) : Prop :=
+  ∀ p w, image_finite_B_at B p w
+
+def image_finite_R_K (R_K : Agent → World → World → Prop) : Prop :=
+  ∀ x w, image_finite_R_K_at R_K x w
+```
