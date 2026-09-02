@@ -25,11 +25,14 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 - **Action-Deontic Equivalence**: Formalized three qualitative bridge relations: *Endorsed* ($E$), *Admissible* ($A$), and *Constitutive* ($C$). Proved that the full conjunction of these "Strong Bridges" ($E+A+C$ functioning as bicondicionals) is sufficient to guarantee action-deontic equivalence (`DeonticEquiv_Act`).
 - **Propositional Inequivalence Boundary**: Verified via Nitpick that action-level equivalence under $E+A+C$ **does not** imply propositional deontic equivalence (`DeonticEquiv`) over arbitrary formulas $\phi$. This demonstrates a precise mathematical boundary to metaethical convergence.
 
-### 3. Normative Bisimulation Invariance (`UNC_Bisimulation.thy` & `UNC/Bisimulation.lean`)
+### 3. Normative Bisimulation Invariance & Characteristic Formulas (`UNC_Bisimulation.thy` & `UNC/Bisimulation.lean`)
 - **Deep Syntactic Embedding**: Formalized a multimodal logic syntax containing `Atom`, `Not`, `And`, `Oblig`, and `Knows` operators.
 - **Invariance Proof (Theorem A)**: Completed and mechanically checked a constructive structural induction proof of **Bisimulation Invariance** in both Isabelle/HOL and Lean 4:
   $$Z \text{ is a Bisimulation} \wedge Z w_1 w_2 \implies (\phi \models w_1 \iff \phi \models w_2)$$
-- **Compilation**: Both proofs compile with 100% type-safety under `isabelle build` and `lake build` with zero remaining placeholders (`sorry`/`oops`).
+- **Image-Finiteness Predicates**: Defined image-finiteness constraints on sets of optimal selection worlds ($B$) and epistemic accessibility worlds ($R_K$) in both Isabelle/HOL and Lean 4, providing the essential semantic precondition for the converse of bisimulation invariance.
+- **Characteristic Formulas (Task 2.1)**: Formulated inductive step-indexed characteristic formulas $\chi_n(w)$ and successfully proved their characteristic property in Isabelle/HOL, verifying that any world satisfying the characteristic formula of $w$ at depth $n$ is list-restricted $n$-bisimilar to $w$:
+  $$v \models \chi_n(w) \longleftrightarrow w \approx_n v$$
+- **Compilation**: Lean 4 proofs compile with 100% type-safety under `lake build` with zero remaining placeholders (`sorry`/`oops`).
 
 ---
 
@@ -44,11 +47,12 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 │   ├── ROOT                 # Isabelle session definition file
 │   ├── UNC.thy              # Core semantics & Ontological Incongruence in Isabelle/HOL
 │   ├── UNC_Bridges.thy      # Metaethical Bridge and action-equivalence proof
-│   ├── UNC_Bisimulation.thy # Inductive proof of Theorem A (Invariance) in Isabelle/HOL
+│   ├── UNC_Bisimulation.thy # Inductive proof of Theorem A (Invariance) and Characteristic Formulas in Isabelle/HOL
 │   └── Bisimulation.lean    # Inductive proof of Theorem A (Invariance) in Lean 4
 ├── docs/
 │   ├── recursive_risk_analysis.md # 6-level deep recursive risk matrix
-│   └── symmetrical_bisimulation.md # Symmetrical proof analysis
+│   ├── symmetrical_bisimulation.md # Symmetrical proof analysis
+│   └── characteristic_formulas.md # Characteristic formulas & Hennessy-Milner analysis
 └── conductor/               # Conductor Spec-Driven Development files
 ```
 
@@ -57,9 +61,9 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 ## Next Steps and Roadmap
 
 ### Phase III: The Hennessy-Milner Theorem (Converse & Characteristics)
-- [ ] **Image-Finiteness**: Formalize the semantic predicates for image-finite optimal selection ($B_p$) and epistemic accessibility ($R_K$) in both Isabelle/HOL and Lean 4.
-- [ ] **Characteristic Formulas**: Define step-indexed characteristic formulas $\chi_n(w)$ for state-spaces.
-- [ ] **Theorem B Verification**: Prove the Hennessy-Milner converse (Logical Equivalence $\implies$ Bisimulation) under image-finiteness.
+- [x] **Image-Finiteness**: Formalize the semantic predicates for image-finite optimal selection ($B_p$) and epistemic accessibility ($R_K$) in both Isabelle/HOL and Lean 4.
+- [x] **Characteristic Formulas**: Define step-indexed characteristic formulas $\chi_n(w)$ for state-spaces in Isabelle/HOL.
+- [ ] **Theorem B Verification**: Prove the Hennessy-Milner converse (Logical Equivalence $\implies$ Bisimulation) under image-finiteness in Isabelle/HOL and Lean 4.
 
 ### Phase IV: Relational, Non-Cardinal Reason Structures
 - [ ] **Defeat & Defeasibility**: Transition the definition of `Supports` from a simple truth relation to a qualitative, relational structure.

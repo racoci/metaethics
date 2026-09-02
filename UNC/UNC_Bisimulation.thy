@@ -104,4 +104,61 @@ next
   then show ?case by simp
 qed
 
+consts list_B :: "p \<Rightarrow> i \<Rightarrow> i list"
+consts list_R_K :: "a \<Rightarrow> i \<Rightarrow> i list"
+
+axiomatization where
+  list_B_sound: "set (list_B p w) = UNC.B p w" and
+  list_R_K_sound: "set (list_R_K x w) = {v. UNC.R_K x w v}"
+
+fun conj_all :: "a \<Rightarrow> act \<Rightarrow> form list \<Rightarrow> form" where
+  "conj_all x act [] = Not (And (Atom x act) (Not (Atom x act)))"
+| "conj_all x act [\<phi>] = \<phi>"
+| "conj_all x act (\<phi> # \<psi> # \<gamma>) = And \<phi> (conj_all x act (\<psi> # \<gamma>))"
+
+fun disj_all :: "a \<Rightarrow> act \<Rightarrow> form list \<Rightarrow> form" where
+  "disj_all x act [] = And (Atom x act) (Not (Atom x act))"
+| "disj_all x act [\<phi>] = \<phi>"
+| "disj_all x act (\<phi> # \<psi> # \<gamma>) = Not (And (Not \<phi>) (Not (disj_all x act (\<psi> # \<gamma>))))"
+
+lemma eval_conj_all:
+  "eval (conj_all x act L) w \<longleftrightarrow> (\<forall>\<phi> \<in> set L. eval \<phi> w)"
+  by (induction L rule: conj_all.induct) auto
+
+lemma eval_disj_all:
+  "eval (disj_all x act L) w \<longleftrightarrow> (\<exists>\<phi> \<in> set L. eval \<phi> w)"
+  by (induction L rule: disj_all.induct) auto
+
+fun char_form :: "(a \<times> act) list \<Rightarrow> a list \<Rightarrow> p list \<Rightarrow> a \<Rightarrow> act \<Rightarrow> nat \<Rightarrow> i \<Rightarrow> form" where
+  "char_form atoms as ps x0 act0 0 w =
+     conj_all x0 act0 (map (\<lambda>(x, act). if Does x act w then Atom x act else Not (Atom x act)) atoms)"
+| "char_form atoms as ps x0 act0 (Suc n) w =
+     And (char_form atoms as ps x0 act0 n w)
+         (And (conj_all x0 act0 (map (\<lambda>p. And (Oblig p (disj_all x0 act0 (map (\<lambda>v. char_form atoms as ps x0 act0 n v) (list_B p w))))
+                                             (conj_all x0 act0 (map (\<lambda>v. Not (Oblig p (Not (char_form atoms as ps x0 act0 n v)))) (list_B p w)))) ps))
+              (conj_all x0 act0 (map (\<lambda>x. And (Knows x (disj_all x0 act0 (map (\<lambda>v. char_form atoms as ps x0 act0 n v) (list_R_K x w))))
+                                             (conj_all x0 act0 (map (\<lambda>v. Not (Knows x (Not (char_form atoms as ps x0 act0 n v)))) (list_R_K x w)))) as)))"
+
+fun n_bisim_list :: "(a \<times> act) list \<Rightarrow> a list \<Rightarrow> p list \<Rightarrow> nat \<Rightarrow> i \<Rightarrow> i \<Rightarrow> bool" where
+  "n_bisim_list atoms as ps 0 w1 w2 = (\<forall>(x, act) \<in> set atoms. Does x act w1 \<longleftrightarrow> Does x act w2)"
+| "n_bisim_list atoms as ps (Suc n) w1 w2 = (
+    n_bisim_list atoms as ps n w1 w2 \<and>
+    (\<forall>p \<in> set ps. \<forall>v1 \<in> UNC.B p w1. \<exists>v2 \<in> UNC.B p w2. n_bisim_list atoms as ps n v1 v2) \<and>
+    (\<forall>p \<in> set ps. \<forall>v2 \<in> UNC.B p w2. \<exists>v1 \<in> UNC.B p w1. n_bisim_list atoms as ps n v1 v2) \<and>
+    (\<forall>x \<in> set as. \<forall>v1. UNC.R_K x w1 v1 \<longrightarrow> (\<exists>v2. UNC.R_K x w2 v2 \<and> n_bisim_list atoms as ps n v1 v2)) \<and>
+    (\<forall>x \<in> set as. \<forall>v2. UNC.R_K x w2 v2 \<longrightarrow> (\<exists>v1. UNC.R_K x w1 v1 \<and> n_bisim_list atoms as ps n v1 v2))
+  )"
+
+theorem char_form_property:
+  "eval (char_form atoms as ps x0 act0 n w) v \<longleftrightarrow> n_bisim_list atoms as ps n w v"
+proof (induction n arbitrary: w v)
+  case 0
+  then show ?case
+    by (simp add: eval_conj_all)
+next
+  case (Suc n)
+  then show ?case
+    by (auto simp add: eval_conj_all eval_disj_all list_B_sound list_R_K_sound Suc.IH)
+qed
+
 end

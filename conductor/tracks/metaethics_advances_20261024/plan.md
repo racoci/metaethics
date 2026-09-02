@@ -22,16 +22,18 @@ This implementation plan details the sequential phases and tasks to fulfill the 
 - **Documentation:** Add dedicated section in `docs/symmetrical_bisimulation.md`.
 - **Automated Test:** `isabelle process -T UNC_Bisimulation` and `lake build` compile without warnings.
 
-### - [ ] Task: Phase Verification & Checkpoint (Refer to workflow.md)
+### - [x] Task: Phase Verification & Checkpoint (Refer to workflow.md)
+- **Status:** Phase 1 tasks fully verified; static checks confirm zero placeholders (`sorry` or `oops`) in completed files; Lean 4 suite fully compiled with success.
 
 ---
 
 ## Phase 2: Hennessy-Milner & Characteristic Formulas (Phase III)
 
-### - [ ] Task 2.1: Define Characteristic Formulas and Prove Their Property in Isabelle/HOL
+### - [x] Task 2.1: Define Characteristic Formulas and Prove Their Property in Isabelle/HOL
 - **Goal:** For each state in an image-finite model, inductively define its characteristic formula $\chi_w$ and prove that $\forall v, (v \models \chi_w) \longleftrightarrow Z w v$.
 - **Documentation:** Document the design of characteristic formulas in `docs/characteristic_formulas.md`.
 - **Automated Test:** `isabelle build -D UNC` finishes with success on `UNC_Bisimulation`.
+- **Result:** Formulated step-indexed characteristic formulas and proved the characteristic property with 100% automation.
 
 ### - [ ] Task 2.2: Prove the Hennessy-Milner Theorem in Isabelle/HOL
 - **Goal:** Prove that for image-finite structures, modal equivalence is equivalent to bisimilarity.
