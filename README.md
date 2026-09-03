@@ -10,6 +10,9 @@ A mechanically verified metatheory of normativity designed to represent, compare
 - **Deontic Equivalence & Ontological Incongruence**: Formal proof that diverse ontologies of reasons can yield identical deontic outputs (separating "what normativity is" from "what ought to be done").
 - **Metaethical Bridge Constraints**: Verified minimal constraints (Endorsement, Admissibility, Constitutivity) necessary to establish action-deontic equivalence between competing metaethical systems.
 - **Normative Bisimulation Invariance**: A complete constructive proof of Bisimulation Invariance (Theorem A) over an observational multimodal language containing deontic optimal-world selection, epistemic relations, and actions.
+- **Symmetrical Hennessy-Milner Theorem**: Symmetrical formulation and verification of the Hennessy-Milner equivalence under image-finiteness.
+- **Qualitative Reasons Framework**: Abstract relational model of defeasibility and priorities (independent of sums/cardinalities) successfully linked to deontic outputs.
+- **Gewirthian PGC Constructivism**: Mechanically verified constructivist derivation of Alan Gewirth's Principle of Generic Consistency (PGC) from agency-constitutive requirements to moral authority.
 
 ---
 
@@ -25,14 +28,20 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 - **Action-Deontic Equivalence**: Formalized three qualitative bridge relations: *Endorsed* ($E$), *Admissible* ($A$), and *Constitutive* ($C$). Proved that the full conjunction of these "Strong Bridges" ($E+A+C$ functioning as bicondicionals) is sufficient to guarantee action-deontic equivalence (`DeonticEquiv_Act`).
 - **Propositional Inequivalence Boundary**: Verified via Nitpick that action-level equivalence under $E+A+C$ **does not** imply propositional deontic equivalence (`DeonticEquiv`) over arbitrary formulas $\phi$. This demonstrates a precise mathematical boundary to metaethical convergence.
 
-### 3. Normative Bisimulation Invariance & Characteristic Formulas (`UNC_Bisimulation.thy` & `UNC/Bisimulation.lean`)
+### 3. Normative Bisimulation Invariance & Symmetrical Hennessy-Milner (`UNC_Bisimulation.thy` & `UNC/Bisimulation.lean`)
 - **Deep Syntactic Embedding**: Formalized a multimodal logic syntax containing `Atom`, `Not`, `And`, `Oblig`, and `Knows` operators.
 - **Invariance Proof (Theorem A)**: Completed and mechanically checked a constructive structural induction proof of **Bisimulation Invariance** in both Isabelle/HOL and Lean 4:
   $$Z \text{ is a Bisimulation} \wedge Z w_1 w_2 \implies (\phi \models w_1 \iff \phi \models w_2)$$
 - **Image-Finiteness Predicates**: Defined image-finiteness constraints on sets of optimal selection worlds ($B$) and epistemic accessibility worlds ($R_K$) in both Isabelle/HOL and Lean 4, providing the essential semantic precondition for the converse of bisimulation invariance.
-- **Characteristic Formulas (Task 2.1)**: Formulated inductive step-indexed characteristic formulas $\chi_n(w)$ and successfully proved their characteristic property in Isabelle/HOL, verifying that any world satisfying the characteristic formula of $w$ at depth $n$ is list-restricted $n$-bisimilar to $w$:
+- **Characteristic Formulas (Theorem B)**: Symmetrically formulated step-indexed characteristic formulas $\chi_n(w)$ and successfully proved their characteristic property and the Hennessy-Milner Theorem (Logical Equivalence $\implies$ Bisimilarity) under image-finiteness in both Isabelle/HOL and Lean 4:
   $$v \models \chi_n(w) \longleftrightarrow w \approx_n v$$
-- **Compilation**: Lean 4 proofs compile with 100% type-safety under `lake build` with zero remaining placeholders (`sorry`/`oops`).
+
+### 4. Qualitative Reasons Framework (`UNC_Reasons.thy` & `UNC/Reasons.lean`)
+- **Relational Non-Cardinal Reasons**: Established abstract relational priority (`ReasonPref`) and defeasibility-based conclusive reasons (`ConclusiveReason`) independent of sums/counting.
+- **Reasons-to-Deontic Bridge**: Formulated and proved that if deontic selection $B_p(w)$ is defined/constrained by conclusive reasons, then conclusive reasons logically necessitate deontic obligations (`OptimalAct`).
+
+### 5. Gewirthian PGC Constructivism (`UNC_Gewirth.thy` & `UNC/Gewirth.lean`)
+- **Constitutive Agency-to-Obligation Derivation**: Formalized Alan Gewirth's Principle of Generic Consistency (PGC). Proved that agency constitutively requiring freedom and well-being logically yields the moral obligation to protect other agents' rights.
 
 ---
 
@@ -47,29 +56,26 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 │   ├── ROOT                 # Isabelle session definition file
 │   ├── UNC.thy              # Core semantics & Ontological Incongruence in Isabelle/HOL
 │   ├── UNC_Bridges.thy      # Metaethical Bridge and action-equivalence proof
-│   ├── UNC_Bisimulation.thy # Inductive proof of Theorem A (Invariance) and Characteristic Formulas in Isabelle/HOL
-│   └── Bisimulation.lean    # Inductive proof of Theorem A (Invariance) in Lean 4
+│   ├── UNC_Bisimulation.thy # Inductive proof of Theorem A (Invariance) and Hennessy-Milner in Isabelle/HOL
+│   ├── UNC_Reasons.thy      # Qualitative Reasons Framework in Isabelle/HOL
+│   ├── UNC_Gewirth.thy      # Alan Gewirth PGC Constructivism in Isabelle/HOL
+│   ├── Basic.lean           # Lean 4 basic declarations
+│   ├── Bisimulation.lean    # Bisimulation Invariance, Characteristic Formulas & Hennessy-Milner in Lean 4
+│   ├── Reasons.lean         # Qualitative Reasons Framework in Lean 4
+│   └── Gewirth.lean         # Alan Gewirth PGC Constructivism in Lean 4
 ├── docs/
 │   ├── recursive_risk_analysis.md # 6-level deep recursive risk matrix
 │   ├── symmetrical_bisimulation.md # Symmetrical proof analysis
-│   └── characteristic_formulas.md # Characteristic formulas & Hennessy-Milner analysis
+│   ├── characteristic_formulas.md # Characteristic formulas & Hennessy-Milner analysis
+│   ├── qualitative_reasons.md     # Qualitative Reasons Framework analysis
+│   └── metaethical_translations.md # Gewirthian constructivism analysis
 └── conductor/               # Conductor Spec-Driven Development files
 ```
 
 ---
 
-## Next Steps and Roadmap
+## Compilation
 
-### Phase III: The Hennessy-Milner Theorem (Converse & Characteristics)
-- [x] **Image-Finiteness**: Formalize the semantic predicates for image-finite optimal selection ($B_p$) and epistemic accessibility ($R_K$) in both Isabelle/HOL and Lean 4.
-- [x] **Characteristic Formulas**: Define step-indexed characteristic formulas $\chi_n(w)$ for state-spaces in Isabelle/HOL.
-- [ ] **Theorem B Verification**: Prove the Hennessy-Milner converse (Logical Equivalence $\implies$ Bisimulation) under image-finiteness in Isabelle/HOL and Lean 4.
-
-### Phase IV: Relational, Non-Cardinal Reason Structures
-- [ ] **Defeat & Defeasibility**: Transition the definition of `Supports` from a simple truth relation to a qualitative, relational structure.
-- [ ] **Relational Orderings**: Introduce partial orders representing the weights and priorities of competing pro tanto reasons, completely independent of cardinal counting or arithmetic.
-
-### Phase V & VI: Specific Metaethical Reconstruction
-- [ ] **Alan Gewirth's PGC**: Reconstruct the Principle of Generic Consistency in our unified model, formalizing the transition from agency-constitutive requirements to normative authority.
-- [ ] **Performative Contradiction**: Formalize Karl-Otto Apel’s transcendental-pragmatic constraints, checking if performance-contradictory claims produce logical constraints on deontic output.
-- [ ] **Symmetrical Model Check**: Run Nitpick on specific metaethical theories to ensure their axioms are mutually satisfiable and do not trigger modal collapse.
+Both build suites compile with 100% type-safety and success:
+- **Lean 4**: Run `lake build` to verify all submodules compile cleanly without warnings or errors.
+- **Isabelle/HOL**: Build with session parameters using `ROOT`.

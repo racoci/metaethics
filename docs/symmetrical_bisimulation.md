@@ -87,4 +87,41 @@ def image_finite_B (B : Perspective → World → World → Prop) : Prop :=
 
 def image_finite_R_K (R_K : Agent → World → World → Prop) : Prop :=
   ∀ x w, image_finite_R_K_at R_K x w
+
+## 5. Symmetrical Characteristic Formulas and Hennessy-Milner in Lean 4
+
+We have symmetrically formalized characteristic formulas, their properties, and the Hennessy-Milner theorem in `UNC/Bisimulation.lean` matching our Isabelle/HOL implementation.
+
+### 5.1 Definitions
+
+We defined list-based helper functions `conj_all` and `disj_all` to map finite lists of subformulas, and then `char_form` and `n_bisim_list` recursively:
+
+```lean
+def conj_all (x : Agent) (act : Action) : List (Form Agent Action Perspective) → Form Agent Action Perspective
+  | [] => Form.Not (Form.And (Form.Atom x act) (Form.Not (Form.Atom x act)))
+  | [phi] => phi
+  | phi :: psi :: gamma => Form.And phi (conj_all x act (psi :: gamma))
+
+def disj_all (x : Agent) (act : Action) : List (Form Agent Action Perspective) → Form Agent Action Perspective
+  | [] => Form.And (Form.Atom x act) (Form.Not (Form.Atom x act))
+  | [phi] => phi
+  | phi :: psi :: gamma => Form.Not (Form.And (Form.Not phi) (Form.Not (disj_all x act (psi :: gamma))))
+```
+
+### 5.2 Symmetrical Proof of Hennessy-Milner
+
+The Lean 4 theorem `hennessy_milner_logical_equiv_implies_bisim` matches our Isabelle/HOL theorem in signature and structure:
+
+```lean
+theorem hennessy_milner_logical_equiv_implies_bisim (atoms : List (Agent × Action)) (as : List Agent) (ps : List Perspective)
+  (x0 : Agent) (act0 : Action) (h0 : (x0, act0) ∈ atoms)
+  (list_B_sound : ∀ p w v, v ∈ list_B p w ↔ B p w v)
+  (list_R_K_sound : ∀ x w v, v ∈ list_R_K x w ↔ R_K x w v)
+  (n : Nat) (w v : World)
+  (h_equiv : logical_equiv_list Does B R_K atoms as ps n w v) :
+  n_bisim_list Does B R_K atoms as ps n w v
+```
+
+This ensures complete alignment of types, operators, and logical bounds across the Isabelle and Lean 4 frameworks.
+
 ```
