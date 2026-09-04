@@ -10,4 +10,5 @@
   *Link: [index.md](./tracks/unc_universalization_principle/index.md)*
 - [x] **Track 2: Adjunctions and Functors in the Category of Normative Systems (A Fronteira Matemática)**
   *Link: [index.md](./tracks/unc_normative_category_theory/index.md)*
-- [ ] **Track 3: Dialogical Logic and Communication Games (A Fronteira Computacional/Agentes)** (Future Roadmap)
+- [x] **Track 3: Dialogical Logic and Communication Games (A Fronteira Computacional/Agentes)**
+  *Link: [index.md](./tracks/unc_dialogical_logic_games/index.md)*

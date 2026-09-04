@@ -55,6 +55,11 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 - **Normative Functors & Galois Adjunctions:** Declared monotonic translations between perspectives as functors, and formalized Galois Connections (Adjunctions) $F(p_1) \le p_2 \iff p_1 \le G(p_2)$.
 - **Fixed-Point Deontic Equivalence Theorem:** Symmetrically proved that at any Galois fixed point (where translations stabilize under the closure operator $G \circ F$), the translated perspective is absolutely deontically equivalent to the original system.
 
+### 8. Dialogical Logic and Skepticism Defeat (`UNC_Dialogical.thy` & `UNC/Dialogical.lean`)
+- **Game-Theoretic Discourse Semantics:** Formalized Lorenzen-Hintikka style dialogue games with active players (`Proponent` and `Opponent`) arguing over communicative normative validity.
+- **Performative Contradiction Game Over:** Integrated transcendental pragmatic constraints as active game-ending rules. Any player who commits a Performative Contradiction ($PC$) immediately loses the game.
+- **Skepticism Defeated Theorem:** Mechanically verified in both Isabelle/HOL and Lean 4 that the Opponent (denying communicative norms) commits a Performative Contradiction, thereby proving that the Opponent possesses no winning strategy ($\neg \text{WinningStrategy } Opponent$) and the Proponent possesses a guaranteed winning strategy.
+
 ---
 
 ## Project Structure
@@ -73,16 +78,19 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 │   ├── UNC_Gewirth.thy      # Alan Gewirth PGC Constructivism in Isabelle/HOL
 │   ├── UNC_DiscourseEthics.thy # Universalization Principle (U) in Isabelle/HOL
 │   ├── UNC_Category.thy     # Preorder Category and Galois connections in Isabelle/HOL
+│   ├── UNC_Dialogical.thy   # Dialogical Logic and Skepticism Defeat in Isabelle/HOL
 │   ├── Basic.lean           # Lean 4 basic declarations
 │   ├── Bisimulation.lean    # Bisimulation Invariance, Characteristic Formulas & Hennessy-Milner in Lean 4
 │   ├── Reasons.lean         # Qualitative Reasons Framework in Lean 4
 │   ├── Gewirth.lean         # Alan Gewirth PGC Constructivism in Lean 4
 │   ├── DiscourseEthics.lean # Universalization Principle (U) in Lean 4
-│   └── Category.lean        # Preorder Category and Galois connections in Lean 4
+│   ├── Category.lean        # Preorder Category and Galois connections in Lean 4
+│   └── Dialogical.lean      # Dialogical Logic and Skepticism Defeat in Lean 4
 ├── docs/
 │   ├── recursive_risk_analysis.md # 6-level deep recursive risk matrix
 │   ├── recursive_risk_analysis_u.md # 6-level deep recursive risk matrix for Track 1
 │   ├── recursive_risk_analysis_category.md # 6-level deep recursive risk matrix for Track 2
+│   ├── recursive_risk_analysis_games.md    # 6-level deep recursive risk matrix for Track 3 (Dialogical)
 │   ├── symmetrical_bisimulation.md # Symmetrical proof analysis
 │   ├── characteristic_formulas.md # Characteristic formulas & Hennessy-Milner analysis
 │   ├── qualitative_reasons.md     # Qualitative Reasons Framework analysis
@@ -96,7 +104,7 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 
 1. **Track 1: Princípio de Universalização (U) de Habermas-Apel** (Completed!)
 2. **Track 2: Adjunctions and Functors in the Category of Normative Systems** (Completed!)
-3. **Track 3: Dialogical Logic and Communication Games** (Future)
+3. **Track 3: Dialogical Logic and Communication Games** (Completed!)
    - Computational representation of dialogue games and multi-agent debate protocols.
 
 ---
