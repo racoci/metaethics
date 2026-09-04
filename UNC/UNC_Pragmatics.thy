@@ -42,4 +42,10 @@ proof (intro allI)
     unfolding PC_def by simp
 qed
 
+(* 6. Model Satisfiability & Consistency (Avoid Modal Collapse) *)
+lemma consistency_and_satisfiability:
+  shows "\<exists>a \<phi> w. (ExecArgue a \<phi>) w"
+  nitpick[satisfy, expect=genuine]
+  oops
+
 end
