@@ -13,6 +13,7 @@ A mechanically verified metatheory of normativity designed to represent, compare
 - **Symmetrical Hennessy-Milner Theorem**: Symmetrical formulation and verification of the Hennessy-Milner equivalence under image-finiteness.
 - **Qualitative Reasons Framework**: Abstract relational model of defeasibility and priorities (independent of sums/cardinalities) successfully linked to deontic outputs.
 - **Gewirthian PGC Constructivism**: Mechanically verified constructivist derivation of Alan Gewirth's Principle of Generic Consistency (PGC) from agency-constitutive requirements to moral authority.
+- **Universalization Principle (U) of Habermas-Apel**: Mechanically verified procedural-deontic bridge connecting communicative rational consensus to deontic validity.
 
 ---
 
@@ -43,6 +44,12 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 ### 5. Gewirthian PGC Constructivism (`UNC_Gewirth.thy` & `UNC/Gewirth.lean`)
 - **Constitutive Agency-to-Obligation Derivation**: Formalized Alan Gewirth's Principle of Generic Consistency (PGC). Proved that agency constitutively requiring freedom and well-being logically yields the moral obligation to protect other agents' rights.
 
+### 6. Universalization Principle (U) of Habermas-Apel (`UNC_DiscourseEthics.thy` & `UNC/DiscourseEthics.lean`)
+- **Counterfactual Norm Acceptance (`Accepts`)**: Formalized counterfactual acceptance of norms by agents under the communicative action paradigm.
+- **Universalization Principle (U)**: Modeled the procedural-deontic bridge where a norm is valid under Discourse Ethics if and only if all agents contrafactualy accept it:
+  $$OptimalAct(p_{dis}, x, N, w) \longleftrightarrow (\forall a. Accepts(a, N, w))$$
+- **Procedural Deontic Equivalence**: Symmetrically proved that if unanimous acceptance under the Discourse perspective matches the optimal actions under another metaethical perspective (the Convergence Condition), then Discourse Ethics is deontically equivalent to that perspective.
+
 ---
 
 ## Project Structure
@@ -59,18 +66,31 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 │   ├── UNC_Bisimulation.thy # Inductive proof of Theorem A (Invariance) and Hennessy-Milner in Isabelle/HOL
 │   ├── UNC_Reasons.thy      # Qualitative Reasons Framework in Isabelle/HOL
 │   ├── UNC_Gewirth.thy      # Alan Gewirth PGC Constructivism in Isabelle/HOL
+│   ├── UNC_DiscourseEthics.thy # Universalization Principle (U) in Isabelle/HOL
 │   ├── Basic.lean           # Lean 4 basic declarations
 │   ├── Bisimulation.lean    # Bisimulation Invariance, Characteristic Formulas & Hennessy-Milner in Lean 4
 │   ├── Reasons.lean         # Qualitative Reasons Framework in Lean 4
-│   └── Gewirth.lean         # Alan Gewirth PGC Constructivism in Lean 4
+│   ├── Gewirth.lean         # Alan Gewirth PGC Constructivism in Lean 4
+│   └── DiscourseEthics.lean # Universalization Principle (U) in Lean 4
 ├── docs/
 │   ├── recursive_risk_analysis.md # 6-level deep recursive risk matrix
+│   ├── recursive_risk_analysis_u.md # 6-level deep recursive risk matrix for Track 1
 │   ├── symmetrical_bisimulation.md # Symmetrical proof analysis
 │   ├── characteristic_formulas.md # Characteristic formulas & Hennessy-Milner analysis
 │   ├── qualitative_reasons.md     # Qualitative Reasons Framework analysis
 │   └── metaethical_translations.md # Gewirthian constructivism analysis
 └── conductor/               # Conductor Spec-Driven Development files
 ```
+
+---
+
+## Roadmap for Next Frontiers
+
+1. **Track 1: Princípio de Universalização (U) de Habermas-Apel** (Completed!)
+2. **Track 2: Adjunctions and Functors in the Category of Normative Systems** (Future)
+   - Mathematical formalization of the category of normative frames and translations as functors.
+3. **Track 3: Dialogical Logic and Communication Games** (Future)
+   - Computational representation of dialogue games and multi-agent debate protocols.
 
 ---
 
