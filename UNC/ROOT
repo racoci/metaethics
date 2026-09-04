@@ -1,1 +1,6 @@
-session "UNC_Bisimulation" = "HOL" + theories UNC_Bisimulation UNC_Reasons UNC_Gewirth
+session "UNC_Bisimulation" = "HOL" +
+  theories
+    UNC_Bisimulation
+    UNC_Reasons
+    UNC_Gewirth
+    UNC_Pragmatics
