@@ -50,6 +50,11 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
   $$OptimalAct(p_{dis}, x, N, w) \longleftrightarrow (\forall a. Accepts(a, N, w))$$
 - **Procedural Deontic Equivalence**: Symmetrically proved that if unanimous acceptance under the Discourse perspective matches the optimal actions under another metaethical perspective (the Convergence Condition), then Discourse Ethics is deontically equivalent to that perspective.
 
+### 7. Category-Theoretic Normative Systems (`UNC_Category.thy` & `UNC/Category.lean`)
+- **Preorder Categories:** Formalized the "demandingness" relation $p_1 \le p_2$ as a preorder, constructing a thin category of normative perspectives.
+- **Normative Functors & Galois Adjunctions:** Declared monotonic translations between perspectives as functors, and formalized Galois Connections (Adjunctions) $F(p_1) \le p_2 \iff p_1 \le G(p_2)$.
+- **Fixed-Point Deontic Equivalence Theorem:** Symmetrically proved that at any Galois fixed point (where translations stabilize under the closure operator $G \circ F$), the translated perspective is absolutely deontically equivalent to the original system.
+
 ---
 
 ## Project Structure
@@ -67,14 +72,17 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 │   ├── UNC_Reasons.thy      # Qualitative Reasons Framework in Isabelle/HOL
 │   ├── UNC_Gewirth.thy      # Alan Gewirth PGC Constructivism in Isabelle/HOL
 │   ├── UNC_DiscourseEthics.thy # Universalization Principle (U) in Isabelle/HOL
+│   ├── UNC_Category.thy     # Preorder Category and Galois connections in Isabelle/HOL
 │   ├── Basic.lean           # Lean 4 basic declarations
 │   ├── Bisimulation.lean    # Bisimulation Invariance, Characteristic Formulas & Hennessy-Milner in Lean 4
 │   ├── Reasons.lean         # Qualitative Reasons Framework in Lean 4
 │   ├── Gewirth.lean         # Alan Gewirth PGC Constructivism in Lean 4
-│   └── DiscourseEthics.lean # Universalization Principle (U) in Lean 4
+│   ├── DiscourseEthics.lean # Universalization Principle (U) in Lean 4
+│   └── Category.lean        # Preorder Category and Galois connections in Lean 4
 ├── docs/
 │   ├── recursive_risk_analysis.md # 6-level deep recursive risk matrix
 │   ├── recursive_risk_analysis_u.md # 6-level deep recursive risk matrix for Track 1
+│   ├── recursive_risk_analysis_category.md # 6-level deep recursive risk matrix for Track 2
 │   ├── symmetrical_bisimulation.md # Symmetrical proof analysis
 │   ├── characteristic_formulas.md # Characteristic formulas & Hennessy-Milner analysis
 │   ├── qualitative_reasons.md     # Qualitative Reasons Framework analysis
@@ -87,8 +95,7 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 ## Roadmap for Next Frontiers
 
 1. **Track 1: Princípio de Universalização (U) de Habermas-Apel** (Completed!)
-2. **Track 2: Adjunctions and Functors in the Category of Normative Systems** (Future)
-   - Mathematical formalization of the category of normative frames and translations as functors.
+2. **Track 2: Adjunctions and Functors in the Category of Normative Systems** (Completed!)
 3. **Track 3: Dialogical Logic and Communication Games** (Future)
    - Computational representation of dialogue games and multi-agent debate protocols.
 

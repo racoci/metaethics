@@ -8,5 +8,6 @@
   *Link: [index.md](./tracks/unc_transcendental_pragmatics/index.md)*
 - [x] **Track 1: Universalization Principle (U) of Habermas-Apel (A Fronteira Pragmática-Procedimental)**
   *Link: [index.md](./tracks/unc_universalization_principle/index.md)*
-- [ ] **Track 2: Adjunctions and Functors in the Category of Normative Systems (A Fronteira Matemática)** (Future Roadmap)
+- [x] **Track 2: Adjunctions and Functors in the Category of Normative Systems (A Fronteira Matemática)**
+  *Link: [index.md](./tracks/unc_normative_category_theory/index.md)*
 - [ ] **Track 3: Dialogical Logic and Communication Games (A Fronteira Computacional/Agentes)** (Future Roadmap)

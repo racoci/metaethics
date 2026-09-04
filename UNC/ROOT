@@ -5,3 +5,4 @@ session "UNC_Bisimulation" = "HOL" +
     UNC_Gewirth
     UNC_Pragmatics
     UNC_DiscourseEthics
+    UNC_Category
