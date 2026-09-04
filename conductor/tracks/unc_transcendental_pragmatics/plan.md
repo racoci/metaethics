@@ -2,6 +2,8 @@
 
 This implementation plan outlines the sequential phases and tasks to formalize Karl-Otto Apel's Transcendental Pragmatics. It enforces Symmetrical Cross-Validation and TDD principles for interactive theorem proving.
 
+> **Implementation Note:** The theory files in this track were named `UNC_Pragmatics.thy` (located in `/home/racoci/Projects/metaethics/UNC/`) and `Pragmatics.lean` (located in `/home/racoci/Projects/metaethics/UNC/`) instead of `UNC_Transcendental.thy` and `Transcendental.lean`. This represents semantic equivalence and is fully integrated into the project's builds and sessions structure (`UNC/ROOT`). All tasks have been verified using continuous integration principles.
+
 ---
 
 ## Architectural Risks, Costs & Technical Debt
@@ -16,22 +18,22 @@ This implementation plan outlines the sequential phases and tasks to formalize K
 
 We declare the core types and primitive operators in both Isabelle/HOL and Lean 4, establishing the syntactic signatures before starting any proofs.
 
-### - [ ] Task 1.1: Declare Speech Act Primitives in Isabelle/HOL
--   **Goal:** Create a new theory file `UNC_Transcendental.thy` in `/home/racoci/Projects/metaethics/UNC/` with primitive constants for `ExecArgue`, `ExecAssert`, `Presuppose` and the logical signature for performative contradiction `PC`.
+### - [x] Task 1.1: Declare Speech Act Primitives in Isabelle/HOL
+-   **Goal:** Create a new theory file `UNC_Pragmatics.thy` in `/home/racoci/Projects/metaethics/UNC/` with primitive constants for `ExecArgue`, `ExecAssert`, `Presuppose` and the logical signature for performative contradiction `PC`.
 -   **Documentation:** Create `/home/racoci/Projects/metaethics/docs/transcendental_pragmatics.md` and document the Isabelle signature mappings.
--   **Automated Test:** Run `isabelle process -T UNC_Transcendental` to verify it compiles with empty/`oops` proofs.
+-   **Automated Test:** Run `isabelle process -T UNC_Pragmatics` to verify it compiles with empty/`oops` proofs.
 
-### - [ ] Task 1.2: Port Speech Act Signatures to Lean 4
--   **Goal:** Create `/home/racoci/Projects/metaethics/UNC/Transcendental.lean` with symmetrical definitions of `ExecArgue`, `ExecAssert`, `Presuppose` and signature declarations using `sorry` placeholders.
+### - [x] Task 1.2: Port Speech Act Signatures to Lean 4
+-   **Goal:** Create `/home/racoci/Projects/metaethics/UNC/Pragmatics.lean` with symmetrical definitions of `ExecArgue`, `ExecAssert`, `Presuppose` and signature declarations using `sorry` placeholders.
 -   **Documentation:** Update `/home/racoci/Projects/metaethics/docs/transcendental_pragmatics.md` to document Lean 4 equivalents.
 -   **Automated Test:** Run `lake build` to ensure the project type-checks cleanly.
 
-### - [ ] Task 1.3: Update Configuration and Sessions List
--   **Goal:** Add `UNC_Transcendental` to the `UNC/ROOT` file in Isabelle to include the new theory in the test session.
+### - [x] Task 1.3: Update Configuration and Sessions List
+-   **Goal:** Add `UNC_Pragmatics` to the `UNC/ROOT` file in Isabelle to include the new theory in the test session.
 -   **Documentation:** Document the session structure in `/home/racoci/Projects/metaethics/docs/transcendental_pragmatics.md`.
 -   **Automated Test:** Run `isabelle build -D UNC` to verify the session compiles cleanly.
 
-### - [ ] Task: Phase Verification & Checkpoint (Refer to workflow.md)
+### - [x] Task: Phase Verification & Checkpoint (Refer to workflow.md)
 -   **Criteria:** All signatures declare cleanly in both engines; builds compile successfully with warnings indicating unfinished proofs (`sorry` / `oops`).
 
 ---
@@ -40,17 +42,17 @@ We declare the core types and primitive operators in both Isabelle/HOL and Lean 
 
 We formalize the core axiom of constitutivity and prove properties of the performative contradiction predicate.
 
-### - [ ] Task 2.1: Formalize Communicative Presuppositions & PC in Isabelle/HOL
--   **Goal:** Implement the Axiom of Communicative Constitutivity and define the `PC` predicate in `UNC_Transcendental.thy`. Prove basic lemmas about performative contradiction (e.g., that an agent cannot assert $\neg \psi$ and presuppose $\psi$ without triggering `PC`).
+### - [x] Task 2.1: Formalize Communicative Presuppositions & PC in Isabelle/HOL
+-   **Goal:** Implement the Axiom of Communicative Constitutivity and define the `PC` predicate in `UNC_Pragmatics.thy`. Prove basic lemmas about performative contradiction (e.g., that an agent cannot assert $\neg \psi$ and presuppose $\psi$ without triggering `PC`).
 -   **Documentation:** Document the mathematical definitions of `PC` in `/home/racoci/Projects/metaethics/docs/transcendental_pragmatics.md`.
--   **Automated Test:** Run `isabelle process -T UNC_Transcendental` to ensure the proofs are accepted.
+-   **Automated Test:** Run `isabelle process -T UNC_Pragmatics` to ensure the proofs are accepted.
 
-### - [ ] Task 2.2: Symmetrize Presuppositions & PC in Lean 4
--   **Goal:** Implement the constitutivity axiom and the `PC` predicate in `UNC/Transcendental.lean` and prove the matching lemmas.
+### - [x] Task 2.2: Symmetrize Presuppositions & PC in Lean 4
+-   **Goal:** Implement the constitutivity axiom and the `PC` predicate in `UNC/Pragmatics.lean` and prove the matching lemmas.
 -   **Documentation:** Update `/home/racoci/Projects/metaethics/docs/transcendental_pragmatics.md` with Lean 4 type-theoretic proofs.
 -   **Automated Test:** Run `lake build` to verify the Lean 4 proofs are verified.
 
-### - [ ] Task: Phase Verification & Checkpoint (Refer to workflow.md)
+### - [x] Task: Phase Verification & Checkpoint (Refer to workflow.md)
 -   **Criteria:** `PC` is fully formalized and proven in both engines; zero warnings/errors about missing types; compilation succeeds.
 
 ---
@@ -59,20 +61,20 @@ We formalize the core axiom of constitutivity and prove properties of the perfor
 
 We formalize Karl-Otto Apel's main transcendental theorem: proving that denying the communicative norms while arguing triggers performative contradictions, establishing discourse-ethical obligations.
 
-### - [ ] Task 3.1: Prove Transcendental Bridge in Isabelle/HOL
--   **Goal:** Prove the Transcendental Bridge theorem in `UNC_Transcendental.thy`:
+### - [x] Task 3.1: Prove Transcendental Bridge in Isabelle/HOL
+-   **Goal:** Prove the Transcendental Bridge theorem in `UNC_Pragmatics.thy`:
     $$\forall a. \lfloor \text{ExecArgue}(a, \mathbf{\neg}\mathcal{N}) \rightarrow \text{PC}(a, \mathbf{\neg}\mathcal{N}) \rfloor$$
     And prove that avoiding performative contradictions obligates discourse agents:
     $$\forall a, \phi. \lfloor \text{ExecArgue}(a, \phi) \rightarrow \mathbf{O}_d(\mathcal{N}) \rfloor$$
 -   **Documentation:** Document the complete proof strategy in `/home/racoci/Projects/metaethics/docs/transcendental_pragmatics.md`.
 -   **Automated Test:** Run `isabelle build -D UNC` to ensure the Isabelle proofs verify.
 
-### - [ ] Task 3.2: Symmetrize Transcendental Bridge in Lean 4
--   **Goal:** Port the Transcendental Bridge proofs to `UNC/Transcendental.lean` using tactics.
+### - [x] Task 3.2: Symmetrize Transcendental Bridge in Lean 4
+-   **Goal:** Port the Transcendental Bridge proofs to `UNC/Pragmatics.lean` using tactics.
 -   **Documentation:** Document the Lean 4 constructive steps in `/home/racoci/Projects/metaethics/docs/transcendental_pragmatics.md`.
 -   **Automated Test:** Run `lake build` to verify Lean 4 compiles.
 
-### - [ ] Task: Phase Verification & Checkpoint (Refer to workflow.md)
+### - [x] Task: Phase Verification & Checkpoint (Refer to workflow.md)
 -   **Criteria:** Transcendental Bridge proofs are completed on both engines with zero placeholders (`sorry` / `oops`).
 
 ---
@@ -81,12 +83,12 @@ We formalize Karl-Otto Apel's main transcendental theorem: proving that denying 
 
 We verify that our axiom systems are non-trivial and satisfiable, mitigating the risk of axiomatic model collapse.
 
-### - [ ] Task 4.1: Perform Satisfiability Checking via Nitpick
--   **Goal:** Run Isabelle's `nitpick` on `UNC_Transcendental.thy` over a finite state space (with 2 worlds, 2 agents, and 2 actions) to verify the existence of non-trivial models where our axioms hold and communication succeeds without contradiction.
+### - [x] Task 4.1: Perform Satisfiability Checking via Nitpick
+-   **Goal:** Run Isabelle's `nitpick` on `UNC_Pragmatics.thy` over a finite state space (with 2 worlds, 2 agents, and 2 actions) to verify the existence of non-trivial models where our axioms hold and communication succeeds without contradiction.
 -   **Documentation:** Document the model configurations and verification results in a new section under `/home/racoci/Projects/metaethics/docs/transcendental_pragmatics.md`.
 -   **Automated Test:** Run `isabelle build -D UNC` (including the Nitpick assertion check).
 
-### - [ ] Task: Phase Verification & Checkpoint (Refer to workflow.md)
+### - [x] Task: Phase Verification & Checkpoint (Refer to workflow.md)
 -   **Criteria:** Nitpick returns a valid satisfiable model, mathematically proving the theory's consistency.
 
 ---
@@ -95,10 +97,10 @@ We verify that our axiom systems are non-trivial and satisfiable, mitigating the
 
 We perform a final, comprehensive static analysis of the codebase to guarantee strict quality compliance before track completion.
 
-### - [ ] Task 5.1: Zero-Placeholder Code Guard Verification
+### - [x] Task 5.1: Zero-Placeholder Code Guard Verification
 -   **Goal:** Audit all theory and code files in the track workspace to verify there are absolutely no `sorry`, `oops`, `admit`, or incomplete proof blocks.
 -   **Documentation:** Document the final verification report in `/home/racoci/Projects/metaethics/docs/transcendental_pragmatics.md`.
 -   **Automated Test:** Run both `lake build` and `isabelle build -D UNC` and confirm 100% clean exit codes.
 
-### - [ ] Task: Phase Verification & Checkpoint (Refer to workflow.md)
+### - [x] Task: Phase Verification & Checkpoint (Refer to workflow.md)
 -   **Criteria:** Both provers accept the entire formalization with 100% success; zero warnings; zero placeholders.
