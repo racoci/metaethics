@@ -12,3 +12,5 @@
   *Link: [index.md](./tracks/unc_normative_category_theory/index.md)*
 - [x] **Track 3: Dialogical Logic and Communication Games (A Fronteira Computacional/Agentes)**
   *Link: [index.md](./tracks/unc_dialogical_logic_games/index.md)*
+- [x] **Track 4: Symmetrical Kant-Utilitarian Confrontation & Interactive Ethics Dashboard (A Fronteira Intelectual e Visual)**
+  *Link: [index.md](./tracks/unc_metaethical_confrontation_viz/index.md)*

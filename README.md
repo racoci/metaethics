@@ -60,6 +60,11 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 - **Performative Contradiction Game Over:** Integrated transcendental pragmatic constraints as active game-ending rules. Any player who commits a Performative Contradiction ($PC$) immediately loses the game.
 - **Skepticism Defeated Theorem:** Mechanically verified in both Isabelle/HOL and Lean 4 that the Opponent (denying communicative norms) commits a Performative Contradiction, thereby proving that the Opponent possesses no winning strategy ($\neg \text{WinningStrategy } Opponent$) and the Proponent possesses a guaranteed winning strategy.
 
+### 9. Kant-Utilitarian Confrontation & Interactive Ethics Dashboard (`UNC_Confrontation.thy`, `UNC/Confrontation.lean` & `docs/dashboard.html`)
+- **Symmetrical Formalization of Western Ethics:** Formalized Kantian Deontology ($p_{kant}$ based on treating agents as ends, never as mere means) and Rule Utilitarianism ($p_{util}$ maximizing qualitative utility).
+- **Practical Convergence Theorem:** Symmetrically proved in both Isabelle/HOL and Lean 4 that under a conditional "No Conflict" scenario (where utility maximization does not require treating anyone as a mere means), the two diametrically opposed perspectives select identical sets of optimal worlds ($B_{p\_kant}(w) = B_{p\_util}(w)$), establishing perfect deontic equivalence.
+- **Interactive Visualization Dashboard:** Built an aesthetic, high-performance web dashboard to dynamically simulate and run normative bisimulation, mapping metaethical perspectives onto real-world dilemmas (autonomous vehicle collision, pandemic data surveillance).
+
 ---
 
 ## Project Structure
@@ -79,18 +84,22 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 │   ├── UNC_DiscourseEthics.thy # Universalization Principle (U) in Isabelle/HOL
 │   ├── UNC_Category.thy     # Preorder Category and Galois connections in Isabelle/HOL
 │   ├── UNC_Dialogical.thy   # Dialogical Logic and Skepticism Defeat in Isabelle/HOL
+│   ├── UNC_Confrontation.thy # Symmetrical Kant-Utilitarian Confrontation in Isabelle/HOL
 │   ├── Basic.lean           # Lean 4 basic declarations
 │   ├── Bisimulation.lean    # Bisimulation Invariance, Characteristic Formulas & Hennessy-Milner in Lean 4
 │   ├── Reasons.lean         # Qualitative Reasons Framework in Lean 4
 │   ├── Gewirth.lean         # Alan Gewirth PGC Constructivism in Lean 4
 │   ├── DiscourseEthics.lean # Universalization Principle (U) in Lean 4
 │   ├── Category.lean        # Preorder Category and Galois connections in Lean 4
-│   └── Dialogical.lean      # Dialogical Logic and Skepticism Defeat in Lean 4
+│   ├── Dialogical.lean      # Dialogical Logic and Skepticism Defeat in Lean 4
+│   └── Confrontation.lean   # Symmetrical Kant-Utilitarian Confrontation in Lean 4
 ├── docs/
+│   ├── dashboard.html       # Pure Vanilla HTML5/CSS3/JS Interactive Ethics Dashboard
 │   ├── recursive_risk_analysis.md # 6-level deep recursive risk matrix
 │   ├── recursive_risk_analysis_u.md # 6-level deep recursive risk matrix for Track 1
 │   ├── recursive_risk_analysis_category.md # 6-level deep recursive risk matrix for Track 2
 │   ├── recursive_risk_analysis_games.md    # 6-level deep recursive risk matrix for Track 3 (Dialogical)
+│   ├── recursive_risk_analysis_confrontation.md # 6-level deep recursive risk matrix for Confrontation and Visualizer
 │   ├── symmetrical_bisimulation.md # Symmetrical proof analysis
 │   ├── characteristic_formulas.md # Characteristic formulas & Hennessy-Milner analysis
 │   ├── qualitative_reasons.md     # Qualitative Reasons Framework analysis
@@ -105,7 +114,8 @@ Our dual-verification pipeline across Isabelle/HOL (using the LogiKEy framework)
 1. **Track 1: Princípio de Universalização (U) de Habermas-Apel** (Completed!)
 2. **Track 2: Adjunctions and Functors in the Category of Normative Systems** (Completed!)
 3. **Track 3: Dialogical Logic and Communication Games** (Completed!)
-   - Computational representation of dialogue games and multi-agent debate protocols.
+4. **Track: Kant-Utilitarian Confrontation & Interactive Ethics Dashboard** (Completed!)
+   - Symmetrical formalization of Kant and Utilitarianism, and a modern interactive visualization dashboard.
 
 ---
 
