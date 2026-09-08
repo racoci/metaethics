@@ -14,3 +14,5 @@
   *Link: [index.md](./tracks/unc_dialogical_logic_games/index.md)*
 - [x] **Track 4: Symmetrical Kant-Utilitarian Confrontation & Interactive Ethics Dashboard (A Fronteira Intelectual e Visual)**
   *Link: [index.md](./tracks/unc_metaethical_confrontation_viz/index.md)*
+- [x] **Track: A Grande Síntese de Dualidade Normativa**
+  *Link: [index.md](./tracks/unc_grand_synthesis_duality/index.md)*
