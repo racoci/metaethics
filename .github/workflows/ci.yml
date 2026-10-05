@@ -23,8 +23,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Setup Lean
         uses: leanprover/lean-action@v1
@@ -35,8 +33,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Run Isabelle Build via Docker
         run: |

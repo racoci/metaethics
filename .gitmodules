@@ -1,0 +1,3 @@
+[submodule "LogiKEy"]
+	path = LogiKEy
+	url = https://github.com/cbenzmueller/LogiKEy.git
