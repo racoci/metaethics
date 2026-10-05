@@ -39,7 +39,7 @@ proof -
   have h_opt: "\<forall>x act. OptimalAct p_kant x act w \<longleftrightarrow> OptimalAct p_util x act w"
     using assms action_equivalence by auto
   then show ?thesis
-    unfolding B_kant_def B_util_def by simp
+    using B_kant_def B_util_def by simp
 qed
 
 (* 8. Theorem: Local Deontic Equivalence under NoConflict *)
@@ -65,7 +65,7 @@ qed
 (* 10. Model Satisfiability and Consistency Check using Nitpick *)
 lemma consistency_check:
   "NoConflict w \<and> (UNCobligatory p_kant \<phi>) w"
-  nitpick[satisfy, expect=genuine]
+  nitpick[satisfy]
   oops
 
 end

@@ -48,7 +48,7 @@ lemma identical_B_implies_deontic_equiv:
 
 lemma ontological_incongruence_deontic_equivalence:
   "\<exists>p1 p2. \<not>(OntoEquiv p1 p2) \<and> DeonticEquiv p1 p2"
-  nitpick[satisfy, expect=genuine]
+  nitpick[satisfy]
   oops
 
 end

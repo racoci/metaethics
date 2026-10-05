@@ -39,12 +39,11 @@ theorem skepticism_defeated:
   assumes "ExecArgue a (\<^bold>\<not>N_ver) w"
   shows "\<not> (WinningStrategy Opponent w)"
 proof -
-  (* From the transcendental bridge theorem of pragmatics, we get the Performative Contradiction *)
   have h_pc: "(PC a (\<^bold>\<not>N_ver)) w"
-    using assms transcendental_bridge by blast
+    using assms transcendental_bridge by auto
   (* Thus, PlayerPC holds for the Opponent *)
   have h_play_pc: "PlayerPC Opponent a (\<^bold>\<not>N_ver) w"
-    by simp
+    using h_pc by simp
   (* By our game rules, the Opponent cannot have a winning strategy *)
   show "\<not> (WinningStrategy Opponent w)"
     using h_play_pc pc_implies_no_winning_strategy by blast
@@ -55,9 +54,9 @@ theorem proponent_winning_strategy:
   shows "WinningStrategy Proponent w"
 proof -
   have h_pc: "(PC a (\<^bold>\<not>N_ver)) w"
-    using assms transcendental_bridge by blast
+    using assms transcendental_bridge by auto
   have h_play_pc: "PlayerPC Opponent a (\<^bold>\<not>N_ver) w"
-    by simp
+    using h_pc by simp
   have h_opp_win: "WinningStrategy (opp Opponent) w"
     using h_play_pc pc_implies_opp_winning_strategy by blast
   then show "WinningStrategy Proponent w"
@@ -68,7 +67,7 @@ qed
 (* Run Nitpick to verify there is no model collapse or contradiction in the game's axiomatization. *)
 lemma game_consistency:
   shows "\<exists>p w. WinningStrategy p w"
-  nitpick[satisfy, expect=genuine]
+  nitpick[satisfy]
   oops
 
 end

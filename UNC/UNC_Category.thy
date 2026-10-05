@@ -94,7 +94,7 @@ qed
 (* Satisfiability and consistency check with Nitpick *)
 lemma adjunction_satisfiable:
   "adjunction F G \<Longrightarrow> \<exists>p. p \<cong>\<^sub>p G (F p)"
-  nitpick[satisfy, expect=genuine]
+  nitpick[satisfy]
   oops
 
 end

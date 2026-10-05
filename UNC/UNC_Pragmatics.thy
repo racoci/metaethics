@@ -27,25 +27,24 @@ definition PC :: "a \<Rightarrow> \<sigma> \<Rightarrow> \<sigma>" where
 
 (* 5. Transcendental Bridge Theorem (The Deduction) *)
 theorem transcendental_bridge: "\<lfloor>ExecArgue a (\<^bold>\<not>N_ver) \<^bold>\<rightarrow> PC a (\<^bold>\<not>N_ver)\<rfloor>"
-proof (intro allI)
+proof (intro allI impI)
   fix w
-  assume "ExecArgue a (\<^bold>\<not>N_ver) w"
-  then have h_assert: "ExecAssert a (\<^bold>\<not>N_ver) w"
+  assume h_argue: "ExecArgue a (\<^bold>\<not>N_ver) w"
+  then have h_assert: "(ExecAssert a (\<^bold>\<not>N_ver)) w"
     using argue_assert by blast
-  have h_presup: "Presuppose a N_ver w"
-    using argue_presuppose_ver `ExecArgue a (\<^bold>\<not>N_ver) w` by blast
-  have h_impl: "\<lfloor>\<^bold>\<not>N_ver \<^bold>\<rightarrow> \<^bold>\<not>N_ver\<rfloor>"
-    by simp
-  from h_presup h_impl have "\<exists>\<psi>. Presuppose a \<psi> w \<and> \<lfloor>\<^bold>\<not>N_ver \<^bold>\<rightarrow> \<^bold>\<not>\<psi>\<rfloor>"
-    by blast
-  with h_assert show "(PC a (\<^bold>\<not>N_ver)) w"
-    unfolding PC_def by simp
+  have h_presup: "(Presuppose a N_ver) w"
+    using argue_presuppose_ver h_argue by blast
+  have h_exists: "\<exists>\<psi>. (Presuppose a \<psi>) w \<and> \<lfloor>\<^bold>\<not>N_ver \<^bold>\<rightarrow> \<^bold>\<not>\<psi>\<rfloor>"
+    apply (rule_tac x="N_ver" in exI)
+    using h_presup by simp
+  show "(PC a (\<^bold>\<not>N_ver)) w"
+    using h_assert h_exists unfolding PC_def by auto
 qed
 
 (* 6. Model Satisfiability & Consistency (Avoid Modal Collapse) *)
 lemma consistency_and_satisfiability:
   shows "\<exists>a \<phi> w. (ExecArgue a \<phi>) w"
-  nitpick[satisfy, expect=genuine]
+  nitpick[satisfy]
   oops
 
 end

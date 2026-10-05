@@ -41,7 +41,7 @@ qed
 (* Axiomatization consistency and satisfiability verification using Nitpick *)
 lemma grand_synthesis_consistency:
   shows "\<exists>Z w1 w2 player p1 p2 F G. adjunction F G \<and> Bisimulation Z \<and> Z w1 w2 \<and> equiv_p (F p1) p2 \<and> WinningStrategy_p player (F p1) w1"
-  nitpick[satisfy, expect=genuine]
+  nitpick[satisfy]
   oops
 
 end

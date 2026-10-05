@@ -149,12 +149,23 @@ fun n_bisim_list :: "(a \<times> act) list \<Rightarrow> a list \<Rightarrow> p 
     (\<forall>x \<in> set as. \<forall>v2. UNC.R_K x w2 v2 \<longrightarrow> (\<exists>v1. UNC.R_K x w1 v1 \<and> n_bisim_list atoms as ps n v1 v2))
   )"
 
+lemma eval_conj_all_map:
+  "eval (conj_all x0 act0 (map (\<lambda>(x, act). if P x act then Atom x act else Not (Atom x act)) L)) v \<longleftrightarrow>
+   (\<forall>(x, act) \<in> set L. P x act = Does x act v)"
+proof (induction L)
+  case Nil
+  then show ?case by simp
+next
+  case (Cons a L)
+  then show ?case by (cases L) (auto simp: case_prod_beta)
+qed
+
 theorem char_form_property:
   "eval (char_form atoms as ps x0 act0 n w) v \<longleftrightarrow> n_bisim_list atoms as ps n w v"
 proof (induction n arbitrary: w v)
   case 0
   then show ?case
-    by (simp add: eval_conj_all)
+    by (simp add: eval_conj_all_map char_form.simps)
 next
   case (Suc n)
   then show ?case
@@ -199,16 +210,38 @@ lemma wf_form_disj_all:
   shows "wf_form atoms as ps (disj_all x act L)"
 using assms by (induction L rule: disj_all.induct) auto
 
+lemma depth_conj_all_map:
+  "depth (conj_all x0 act0 (map (\<lambda>(x, act). if P x act then Atom x act else Not (Atom x act)) L)) = 0"
+proof (induction L)
+  case Nil
+  then show ?case by simp
+next
+  case (Cons a L)
+  then show ?case by (cases L) (auto simp: case_prod_beta)
+qed
+
 lemma depth_char_form:
   shows "depth (char_form atoms as ps x0 act0 n w) \<le> n"
 proof (induction n arbitrary: w)
   case 0
   then show ?case
-    by (simp add: depth_conj_all)
+    by (simp add: depth_conj_all_map char_form.simps)
 next
   case (Suc n)
   then show ?case
-    by (auto simp add: depth_conj_all depth_disj_all)
+    by (auto simp add: depth_conj_all depth_disj_all char_form.simps) (metis Suc.IH le_SucI)
+qed
+
+lemma wf_form_conj_all_map:
+  assumes "(x0, act0) \<in> set atoms"
+  assumes "\<forall>(x, act) \<in> set L. (x, act) \<in> set atoms"
+  shows "wf_form atoms as ps (conj_all x0 act0 (map (\<lambda>(x, act). if P x act then Atom x act else Not (Atom x act)) L))"
+using assms proof (induction L)
+  case Nil
+  then show ?case by simp
+next
+  case (Cons a L)
+  then show ?case by (cases L) (auto simp: case_prod_beta)
 qed
 
 lemma wf_form_char_form:
@@ -217,7 +250,7 @@ lemma wf_form_char_form:
 proof (induction n arbitrary: w)
   case 0
   then show ?case
-    using assms by (auto simp add: wf_form_conj_all)
+    using assms by (simp add: wf_form_conj_all_map char_form.simps)
 next
   case (Suc n)
   then show ?case

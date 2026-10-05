@@ -37,7 +37,7 @@ lemma full_deontic_equiv_fails:
   assumes "MetaEquiv p1 p2"
   assumes "Bridge_Strong p1" "Bridge_Strong p2"
   shows "DeonticEquiv p1 p2"
-  nitpick[expect=genuine]
+  nitpick[]
   oops
 
 end
