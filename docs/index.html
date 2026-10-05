@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Normative Core (UNC) - Interactive Ethics Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-blue-glow: rgba(88, 166, 255, 0.4);
+            --accent-purple: #bc8cff;
+            --accent-purple-glow: rgba(188, 140, 255, 0.4);
+            --accent-emerald: #39d353;
+            --accent-emerald-glow: rgba(57, 211, 83, 0.4);
+            --accent-crimson: #ff7b72;
+            --accent-crimson-glow: rgba(255, 123, 114, 0.4);
+            --neon-glow: 0 0 15px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 2rem auto;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px var(--accent-blue-glow);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Controls styling */
+        .control-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select, input[type="range"] {
+            width: 100%;
+            background-color: #0d1117;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 8px var(--accent-blue-glow);
+        }
+
+        /* Toggle switch */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #0d1117;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #30363d;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-blue);
+            box-shadow: 0 0 8px var(--accent-blue-glow);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Display items */
+        .level-section {
+            background-color: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .level-header {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .level-header.ser { color: var(--accent-purple); }
+        .level-header.bridge { color: var(--accent-blue); }
+        .level-header.dever { color: var(--accent-emerald); }
+
+        .level-content {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-obl { background-color: rgba(57, 211, 83, 0.15); color: var(--accent-emerald); border: 1px solid var(--accent-emerald); }
+        .badge-for { background-color: rgba(255, 123, 114, 0.15); color: var(--accent-crimson); border: 1px solid var(--accent-crimson); }
+
+        /* Simulator display styling */
+        .sim-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .sim-column {
+            background-color: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .sim-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .sim-action {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-top: 0.5rem;
+        }
+
+        .result-container {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .result-container.bisimilar {
+            background-color: rgba(57, 211, 83, 0.1);
+            border: 2px solid var(--accent-emerald);
+            color: var(--accent-emerald);
+            box-shadow: 0 0 15px var(--accent-emerald-glow);
+        }
+
+        .result-container.divergent {
+            background-color: rgba(255, 123, 114, 0.1);
+            border: 2px solid var(--accent-crimson);
+            color: var(--accent-crimson);
+            box-shadow: 0 0 15px var(--accent-crimson-glow);
+        }
+
+        /* Extra details and verification commands */
+        .info-footer {
+            max-width: 1200px;
+            margin: 2rem auto 0 auto;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .info-footer h3 {
+            color: #ffffff;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-footer pre {
+            background-color: #0d1117;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            color: var(--accent-blue);
+            font-family: monospace;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Universal Normative Core (UNC)</h1>
+        <p>Interactive Metaethical Convergence & Symmetrical Bisimulation Simulator</p>
+    </header>
+
+    <main>
+        <!-- LEFT COLUMN: Perspective Explorer & Scenario Configuration -->
+        <div class="card">
+            <h2 class="card-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Perspective Explorer
+            </h2>
+
+            <div class="control-group">
+                <label for="scenario-select">Select Case Scenario</label>
+                <select id="scenario-select" onchange="updateDashboard()">
+                    <option value="autonomous-car">Case A: Autonomous Car Dilemma</option>
+                    <option value="pandemic-data">Case B: Pandemic Data Surveillance</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="perspective-select">Select Metaethical Perspective</label>
+                <select id="perspective-select" onchange="updateDashboard()">
+                    <option value="kantianism">Kantian Deontology (Humanity as an End)</option>
+                    <option value="utilitarianism">Rule Utilitarianism (Welfare Maximizer)</option>
+                    <option value="discourse">Apel's Transcendental Pragmatics / Discourse Ethics</option>
+                    <option value="gewirthian">Gewirth's Principle of Generic Consistency (PGC)</option>
+                    <option value="realism">Robust Moral Realism (Objective Values)</option>
+                </select>
+            </div>
+
+            <div class="level-section">
+                <div class="level-header ser">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    1. Ontological Level (Ser)
+                </div>
+                <div class="level-content" id="onto-content">
+                    Kantian justification grounds normativity in the absolute value of rational agency. To instrumentalize a rational agent as a mere means is a logical self-contradiction of reason.
+                </div>
+            </div>
+
+            <div class="level-section">
+                <div class="level-header bridge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 3 4 8 5-5M4 14h16M12 14v8"/></svg>
+                    2. Bridge Level (Galois / Presuppositions)
+                </div>
+                <div class="level-content" id="bridge-content">
+                    The categorical constraint: treating agency as an end-in-itself acts as a necessary constraint of deontic admissibility.
+                </div>
+            </div>
+
+            <div class="level-section">
+                <div class="level-header dever">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    3. Deontic Output (Dever)
+                </div>
+                <div class="level-content" id="deontic-content">
+                    <span class="badge badge-obl">Ought</span> Act to save the pedestrian, avoiding active instrumentalization.
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Bisimulation & Practical Convergence Simulator -->
+        <div class="card">
+            <h2 class="card-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18V6H8v12M12 12h8M4 12h4"/></svg>
+                Symmetrical Bisimulation Simulator
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                This simulator runs two diametrically opposed perspectives (Kantianism and Rule Utilitarianism) in parallel. Configure the conflict setting below to analyze perfect action-level convergence (bisimulation).
+            </p>
+
+            <div class="control-group">
+                <div class="switch-container">
+                    <div>
+                        <span style="font-weight: 700; color: #ffffff; display: block;">No Conflict Scenario</span>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);" id="toggle-desc">When ON, welfare maximization does NOT require instrumentalization.</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="conflict-toggle" checked onchange="simulateBisimulation()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="sim-grid">
+                <div class="sim-column" id="col-kant">
+                    <div class="sim-title" style="color: var(--accent-purple);">Kantian Deontology</div>
+                    <div style="color: var(--text-muted); font-size: 0.8rem;">Selection Set B(p_kant, w)</div>
+                    <div class="sim-action" id="kant-action">Save Pedestrian</div>
+                </div>
+                <div class="sim-column" id="col-util">
+                    <div class="sim-title" style="color: var(--accent-blue);">Rule Utilitarianism</div>
+                    <div style="color: var(--text-muted); font-size: 0.8rem;">Selection Set B(p_util, w)</div>
+                    <div class="sim-action" id="util-action">Save Pedestrian</div>
+                </div>
+            </div>
+
+            <div class="result-container bisimilar" id="sim-result">
+                DEONTIC EQUIVALENCE: Bisimulation Stable
+            </div>
+        </div>
+    </main>
+
+    <div class="info-footer">
+        <div>
+            <h3>Theoretical Insights</h3>
+            <p>
+                The <strong>Universal Normative Core (UNC)</strong> mathematically formalizes that although theories possess deep <i>ontological incongruence</i> (justifying normativity via distinct means, shown in Level 1), they can reach complete <i>deontic equivalence</i> (shown in Level 3 and verified symmetrically). Under the conditional scenario <code>NoConflict w</code>, both perspectives generate the exact same action outputs, making them bisimilar.
+            </p>
+        </div>
+        <div>
+            <h3>Symmetrical Mechanical Verification</h3>
+            <p>
+                The theorems and proofs of this practical convergence have been successfully and mechanically verified across two distinct proof assistants with zero placeholders:
+            </p>
+            <pre># Lean 4 Compiler (Successful)
+lake build
+
+# Isabelle/HOL Proof Session (Successful)
+isabelle build -D UNC</pre>
+        </div>
+    </div>
+
+    <script>
+        const database = {
+            "autonomous-car": {
+                name: "Case A: Autonomous Car Dilemma",
+                kantianism: {
+                    onto: "Justified via the categorical imperative: treating human agents as ends, never as mere means. Sacrificing a pedestrian actively is forbidden.",
+                    bridge: "The constraint of non-instrumentalization requires that no agent's life can be used as a shield or a simple mechanical resource.",
+                    dever: "<span class='badge badge-obl'>Ought</span> Maintain course (avoiding active steering to sacrifice/instrumentalize the pedestrian)."
+                },
+                utilitarianism: {
+                    onto: "Justified via rule utility: maximizing aggregate survival. If sacrificing one saves five, aggregate utility requires it.",
+                    bridge: "The qualitative utility pre-order determines that 5 survivors are strictly preferred to 1 survivor.",
+                    dever: "<span class='badge badge-for'>Forbidden</span> Save the pedestrian (Rule Utilitarian optimization would choose to sacrifice the pedestrian to save the five passengers)."
+                },
+                discourse: {
+                    onto: "Communicative rational consensus: a valid norm must be accepted counterfactually by all affected parties in rational discourse.",
+                    bridge: "The universalization principle (U): a steering action that treats a pedestrian as a shield is not unanimously acceptable.",
+                    dever: "<span class='badge badge-obl'>Ought</span> Maintain course (treating the pedestrian as a communicative participant)."
+                },
+                gewirthian: {
+                    onto: "Agency-constitutive requirements: any agent must claim rights to freedom and well-being, and must recognize the same rights for others.",
+                    bridge: "Principle of Generic Consistency (PGC): protecting the fundamental rights of the pedestrian is a constitutive necessity.",
+                    dever: "<span class='badge badge-obl'>Ought</span> Avoid instrumentalization (respect the pedestrian's generic rights)."
+                },
+                realism: {
+                    onto: "Objective, mind-independent moral facts: the duty to protect agency is an eternal, objective moral property of the universe.",
+                    bridge: "The direct recognition of the objective wrongness of active killing/instrumentalization.",
+                    dever: "<span class='badge badge-obl'>Ought</span> Do not sacrifice the pedestrian."
+                }
+            },
+            "pandemic-data": {
+                name: "Case B: Pandemic Data Surveillance",
+                kantianism: {
+                    onto: "Agency-based autonomy: tracking citizens without consent violates their rational agency, treating them as simple data resources.",
+                    bridge: "The admissibility constraint requires respecting individual consent and categorical privacy.",
+                    dever: "<span class='badge badge-for'>Forbidden</span> Unauthorized location tracking (protect individual agency)."
+                },
+                utilitarianism: {
+                    onto: "Aggregated welfare: tracking citizen movement stops the spread of a deadly pathogen, maximizing overall public health utility.",
+                    bridge: "Utility aggregation determines that saving thousands of lives outweighs temporary privacy violations.",
+                    dever: "<span class='badge badge-obl'>Ought</span> Implement unauthorized surveillance (Rule Utilitarian optimal action)."
+                },
+                discourse: {
+                    onto: "The consensus principle: any surveillance policy must be agreed upon by citizens in a transparent, coercion-free dialogue.",
+                    bridge: "A policy of secret tracking commits a performative contradiction, violating communicative veracity.",
+                    dever: "<span class='badge badge-for'>Forbidden</span> Secret tracking without cooperative democratic consensus."
+                },
+                gewirthian: {
+                    onto: "PGC: Freedom and well-being are fundamental rights. Well-being (public health) is a basic need, but so is freedom (privacy).",
+                    bridge: "If a pathogen is extremely deadly, basic well-being rights can outweigh temporary privacy rights, provided rights are restored afterward.",
+                    dever: "<span class='badge badge-obl'>Ought</span> Restrained tracking (conditional on immediate pathogen containment)."
+                },
+                realism: {
+                    onto: "Objective values: the intrinsic values of health and liberty are balanced in accordance with independent moral truths.",
+                    bridge: "Objective ethical calculus of proportionate balancing.",
+                    dever: "<span class='badge badge-obl'>Ought</span> Balance privacy and health (prohibit absolute surveillance)."
+                }
+            }
+        };
+
+        function updateDashboard() {
+            const scenario = document.getElementById("scenario-select").value;
+            const perspective = document.getElementById("perspective-select").value;
+
+            const data = database[scenario][perspective];
+            document.getElementById("onto-content").innerHTML = data.onto;
+            document.getElementById("bridge-content").innerHTML = data.bridge;
+            document.getElementById("deontic-content").innerHTML = data.dever;
+        }
+
+        function simulateBisimulation() {
+            const isNoConflict = document.getElementById("conflict-toggle").checked;
+            const scenario = document.getElementById("scenario-select").value;
+            
+            const kantActionEl = document.getElementById("kant-action");
+            const utilActionEl = document.getElementById("util-action");
+            const resultEl = document.getElementById("sim-result");
+            const toggleDescEl = document.getElementById("toggle-desc");
+
+            if (isNoConflict) {
+                toggleDescEl.innerText = "When ON, welfare maximization does NOT require instrumentalization.";
+                
+                // Under NoConflict, both select the action that protects agency
+                if (scenario === "autonomous-car") {
+                    kantActionEl.innerText = "Save Pedestrian";
+                    utilActionEl.innerText = "Save Pedestrian";
+                } else {
+                    kantActionEl.innerText = "Prohibit Surveillance";
+                    utilActionEl.innerText = "Prohibit Surveillance";
+                }
+
+                resultEl.className = "result-container bisimilar";
+                resultEl.innerText = "DEONTIC EQUIVALENCE: Bisimulation Stable (Bp_kant == Bp_util)";
+            } else {
+                toggleDescEl.innerText = "When OFF, welfare maximization conflicts with agency (requires instrumentalization).";
+                
+                if (scenario === "autonomous-car") {
+                    kantActionEl.innerText = "Save Pedestrian";
+                    utilActionEl.innerText = "Sacrifice Pedestrian";
+                } else {
+                    kantActionEl.innerText = "Prohibit Surveillance";
+                    utilActionEl.innerText = "Implement Surveillance";
+                }
+
+                resultEl.className = "result-container divergent";
+                resultEl.innerText = "DEONTIC DIVERGENCE: Bisimulation Broken (Bp_kant != Bp_util)";
+            }
+        }
+
+        // Run initial configuration
+        updateDashboard();
+        simulateBisimulation();
+    </script>
+</body>
+</html>

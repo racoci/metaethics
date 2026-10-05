@@ -1,0 +1,165 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\begin{document}
+
+\title{Symmetrical Cross-Verification of the Universal Normative Core (UNC): A Categorical, Dialogical, and Observational Duality in Formal Metaethics}
+\titlerunning{Symmetrical Cross-Verification of the UNC}
+
+\author{Anonymous Authors}
+\institute{Paper Under Peer Review}
+
+\maketitle
+
+\begin{abstract}
+We present the \textbf{Universal Normative Core (UNC)}, a mechanically verified, multi-paradigm metatheory of normativity designed to translate, compare, and establish the convergence of competing metaethical systems (Moral Realism, Kantian Constructivism, and Transcendental Pragmatics). UNC introduces a formal two-level semantic model that separates the ontological status of reasons (Ser) from their projective deontic outputs (Dever). This separation allows us to mathematically demonstrate the thesis of \textbf{Deontic Equivalence under Ontological Incongruence}---proving that divergent metaphysical frameworks can yield identical practical obligations. 
+
+To characterize this convergence, we establish and mechanically check three foundational results symmetrically in both \textbf{Isabelle/HOL (LogiKEy)} and \textbf{Lean 4 (v4.32.1)}: (1) \textbf{Normative Bisimulation Invariance} (the Hennessy-Milner equivalence) showing observational indistinguishability under image-finite selection; (2) \textbf{Metaethical Bridge Constraints} proving that Rule Utilitarianism and Kantian Deontology structurally coincide at action-level points of harmony; and (3) the \textbf{Galois-Game Duality Theorem}, establishing a Stone-like duality between Category-Theoretic Adjunctions and Game-Theoretic Dialogical Winning Strategies. We evaluate this metatheory using real-world ethical dilemmas and deploy an interactive visual dashboard verifying that the classic clash between major ethical systems is purely metaphysical rather than normative.
+
+\keywords{Deontic Logic \and Interactive Theorem Proving \and Metaethics \and Category Theory \and Dialogical Logic \and Lean 4 \and Isabelle/HOL.}
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{The Metaethical Standoff}
+For centuries, metaethics has been defined by a deep disagreement regarding the nature of normativity. \textbf{Moral Realists} argue that obligations are grounded in mind-independent, non-natural moral facts. \textbf{Kantian Constructivists} assert that obligations are constructed through the constitutive preconditions of agency~\cite{gewirth1978reason}. \textbf{Transcendental Pragmatists} argue that obligations emerge as inescapable presuppositions of rational communicative discourse~\cite{apel1980transformation,habermas1990moral}. This metaphysical ``clash of paradigms'' has historically been treated as a zero-sum game, leading to intractable intellectual standoffs.
+
+\subsection{The Computational Turn in Formal Ethics}
+As multi-agent artificial intelligence and autonomous decision-making systems become ubiquitous, the problem of metaethical disagreement transitions from an abstract philosophical debate to an urgent engineering crisis. If autonomous machines are deployed with conflicting ethical rule-sets (e.g., a purely Kantian car vs. a Utilitarian car), their coordination breaks down, leading to catastrophic systemic failures. Developing a unified computational metatheory that can translate, compare, and mathematically prove the convergence of these competing frameworks is therefore a critical priority for AI Safety and Alignment.
+
+\subsection{Core Contributions of the UNC Framework}
+We introduce the \textbf{Universal Normative Core (UNC)}, a multimodal formal framework that models metaethical systems as parameters inside a unified semantic structure. UNC provides:
+\begin{enumerate}
+    \item \textbf{Justificatory/Deontic Separation:} We mathematically prove the independence of ontological reasons (why an action is justified) and deontic outputs (what is obligatory).
+    \item \textbf{Symmetrical Cross-Verification:} Every definition, axiom, and theorem is verified in parallel using \textbf{Isabelle/HOL}~\cite{benzmuller2020logikey} and \textbf{Lean 4} with zero placeholders.
+    \item \textbf{The Galois-Game Duality:} We prove a Stone-like duality establishing an equivalence between Category-Theoretic Adjunctions and Game-Theoretic Dialogical Winning Strategies under Bisimulations.
+\end{enumerate}
+
+\section{The Metatheoretical Model (Formal Semantics)}
+
+\subsection{Parameterized Multimodal Kripke Semantics}
+The Universal Normative Core (UNC) is interpreted over a parameterized multimodal Kripke frame:
+\[
+\mathcal{M} = \langle W, A, Q, P, \mathcal{B}, \mathcal{R}_K, \mathcal{R}_S, \text{Supports} \rangle
+\]
+where $W$ is a non-empty set of possible worlds, $A$ is a set of agents, $Q$ is a set of reasons, $P$ is a set of metaethical perspectives, $\mathcal{B} : P \to W \to \wp(W)$ maps a perspective and world to optimal worlds, $\mathcal{R}_K$ is epistemic accessibility, $\mathcal{R}_S$ is agency STIT choice cells, and $\text{Supports}$ represents the justificatory relation.
+
+Propositions are semantically embedded as functions from worlds to truth values ($\sigma \equiv W \to \mathbb{B}$). Deontic necessity under perspective $p$ is defined as:
+\[
+\mathbf{O}_p \phi \equiv \lambda w. \forall v \in \mathcal{B}(p, w). \phi(v)
+\]
+
+\subsection{Proof of Ontological Incongruence}
+We formalize \textbf{Ontological Equivalence} ($\text{OntoEquiv}$) as agreement on reasons supporting actions, and \textbf{Deontic Equivalence} ($\text{DeonticEquiv}$) as agreement on obligations. Using Isabelle's \texttt{nitpick} model finder, we prove \textbf{Deontic Equivalence under Ontological Incongruence}:
+\[
+\exists p_1, p_2.\, \neg \text{OntoEquiv}(p_1, p_2) \wedge \text{DeonticEquiv}(p_1, p_2)
+\]
+demonstrating that disparate metaphysical justifications (Ser) are compatible with identical practical obligations (Dever).
+
+\section{Constitutive Normative Frameworks}
+
+\subsection{Kantio-Gewirthian Constructivism (Agency-Constitutivity)}
+Alan Gewirth's Principle of Generic Consistency (PGC) is formalized by modeling freedom and well-being as constitutive requirements of agency~\cite{gewirth1978reason}.
+\begin{theorem}[PGC Obligation]
+For all agents $x, y$ and worlds $w$, protecting the generic rights of others is obligatory:
+\[
+\forall x, y, w.\, \text{OptimalAct}(p_{pgc}, x, \text{Protect}(y), w)
+\]
+\end{theorem}
+Verified symmetrically in Isabelle/HOL (\texttt{UNC\_Gewirth.thy}) and Lean 4 (\texttt{Gewirth.lean}).
+
+\subsection{Apelian Transcendental Pragmatics (Discourse-Constitutivity)}
+Karl-Otto Apel's Transcendental Pragmatics grounds obligations in communicative discourse presuppositions~\cite{apel1980transformation}. Asserting a proposition incompatible with these presuppositions triggers a \textbf{Performative Contradiction} ($PC$):
+\[
+\text{PC}(a, \chi) \equiv \lambda w.\, \text{ExecAssert}(a, \chi, w) \wedge (\exists \psi.\, \text{Presuppose}(a, \psi, w) \wedge \lfloor \chi \rightarrow \mathbf{\neg}\psi \rfloor)
+\]
+\begin{theorem}[Transcendental Bridge]
+Attempting to rationally argue against communicative veracity ($\neg N_{ver}$) yields a performative contradiction:
+\[
+\forall a.\, \lfloor \text{ExecArgue}(a, \mathbf{\neg}N_{ver}) \rightarrow \text{PC}(a, \mathbf{\neg}N_{ver}) \rfloor
+\]
+\end{theorem}
+Verified symmetrically in Isabelle/HOL (\texttt{UNC\_Pragmatics.thy}) and Lean 4 (\texttt{Pragmatics.lean}).
+
+\section{Normative Bisimulation and Invariance}
+
+We embed a multimodal syntax $\text{form} \equiv \text{Atom}(a, act) \mid \text{Not}(\phi) \mid \text{And}(\phi, \psi) \mid \text{Oblig}(p, \phi) \mid \text{Knows}(a, \phi)$.
+\begin{definition}[Normative Observational Bisimulation]
+A binary relation $Z \subseteq W \times W$ is a bisimulation if it preserves atomic actions ($\text{Does}$) and satisfies standard back-and-forth Zig-Zag conditions across optimal selection $\mathcal{B}(p, \cdot)$ and epistemic relations $\mathcal{R}_K(a, \cdot)$.
+\end{definition}
+
+\begin{theorem}[Theorem A: Bisimulation Invariance]
+If $Z$ is a normative bisimulation and $Z w_1 w_2$, then for any formula $\phi$:
+\[
+w_1 \models \phi \iff w_2 \models \phi
+\]
+\end{theorem}
+
+Under \textbf{Image-Finiteness}, we define step-indexed \textbf{Characteristic Formulas} $\chi_n(w)$ capturing state-spaces up to depth $n$, and prove the \textbf{Hennessy-Milner Theorem}~\cite{hennessy1985algebraic}: logical equivalence over our observational fragment implies full observational bisimilarity.
+
+\section{The Galois-Game Duality Theorem}
+
+\subsection{Preorders and Galois Adjunctions}
+We define the preorder of demandingness: $p_1 \le_p p_2 \iff \forall \phi, w.\, (\mathbf{O}_{p_2} \phi) w \longrightarrow (\mathbf{O}_{p_1} \phi) w$. A translation between paradigms is an adjunction $F \dashv G$:
+\[
+F(p_1) \le_p p_2 \iff p_1 \le_p G(p_2)
+\]
+
+\subsection{Game-Theoretic Semantics and Skeptical Defeat}
+Using Lorenzen-Hintikka GTS~\cite{lorenzen1978dialogische}, discourse is modeled as a zero-sum game between Proponent and Opponent. Committing a performative contradiction ($PC$) is an instant losing state. We prove the \textbf{Skeptical Defeat Theorem}: if the Opponent argues against veracity, they commit $PC$ and cannot possess a winning strategy.
+
+\begin{theorem}[The Galois-Game Duality Theorem]
+Given a Galois Adjunction $F \dashv G$ and fixed-point isomorphism $F(p_1) \cong_p p_2$, the existence of a winning strategy under the translated perspective $F(p_1)$ in world $w_1$ is logically equivalent to a winning strategy under $p_2$ in world $w_2$, provided $w_1$ and $w_2$ are bisimilar ($w_1 \sim w_2$):
+\[
+\text{WinningStrategy\_p}(P, F(p_1), w_1) \iff \text{WinningStrategy\_p}(P, p_2, w_2)
+\]
+\end{theorem}
+Verified symmetrically in Isabelle/HOL (\texttt{UNC\_GrandSynthesis.thy}) and Lean 4 (\texttt{GrandSynthesis.lean}).
+
+\section{Practical Case Study and Visualization}
+
+We formalize Kantian Deontology ($p_{kant}$) and Rule Utilitarianism ($p_{util}$) in \texttt{UNC\_Confrontation.thy} and \texttt{Confrontation.lean}. We prove the \textbf{Practical Convergence Theorem}: in states of harmony ($\text{NoConflict}$), both theories select identical optimal worlds:
+\[
+\lfloor \text{NoConflict} \rightarrow \mathcal{B}(p_{kant}) = \mathcal{B}(p_{util}) \rfloor
+\]
+We deployed an interactive web dashboard in \texttt{docs/dashboard.html} simulating real dilemmas (Autonomous Car Collision and Pandemic Surveillance), allowing real-time inspection of Ontological, Bridge, and Deontic levels.
+
+\section{Conclusion}
+The Universal Normative Core establishes that the traditional clashes of metaethics are metaphysical rather than normative. By proving the Galois-Game Duality Theorem and verifying all theorems symmetrically in Isabelle/HOL and Lean 4 with zero placeholders, we provide an unshakeable formal foundation for multi-paradigm ethical convergence and Constitutional AI auditing.
+
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}

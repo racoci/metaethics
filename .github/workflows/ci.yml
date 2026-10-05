@@ -1,0 +1,67 @@
+name: Symmetrical Verification CI & Documentation Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  lean-build:
+    name: Lean 4 Mechanical Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Lean
+        uses: leanprover/lean-action@v1
+
+  isabelle-build:
+    name: Isabelle/HOL Mechanical Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Run Isabelle Build via Docker
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace makarius/isabelle:Isabelle2025-2 /bin/bash -c "cd /workspace/UNC && isabelle build -d . UNC_Bisimulation"
+
+  deploy-pages:
+    name: Deploy Interactive Ethics Dashboard to GitHub Pages
+    needs: [lean-build, isabelle-build]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs/'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
